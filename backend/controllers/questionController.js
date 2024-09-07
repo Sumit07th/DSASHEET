@@ -1,27 +1,4 @@
 const Question = require('../models/questionModel');
-const UserQuestionInteraction = require('../models/UserQuestionInteraction');
-
-// Update status or revision for a specific question for a user
-exports.updateStatusOrRevision = async (req, res) => {
-    try {
-        const { userId } = req.user;  // Extract user from token (middleware)
-        const { questionId } = req.params;  // Question ID from route params
-        const { status, revision } = req.body;  // New status and revision values
-
-        // Find the interaction or create a new one
-        const interaction = await UserQuestionInteraction.findOneAndUpdate(
-            { userId, questionId },
-            { status, revision },
-            { new: true, upsert: true }
-        );
-
-        res.status(200).json({ message: 'Status and revision updated.', interaction });
-    } catch (error) {
-        console.error('Error updating status/revision:', error);
-        res.status(500).json({ message: 'Error updating status/revision.', error });
-    }
-};
-
 
 
 // Create a new question (Admin Only)

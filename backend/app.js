@@ -5,7 +5,9 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const articleRoutes = require('./routes/articleRoutes');
-const { MONGO_URI } = require('./config/config')
+const { MONGO_URI } = require('./config/config');
+const userQuestionInteractionRoutes = require('./routes/userQuestionInteractionRoutes');
+
 
 // Initialize the Express application
 const app = express();
@@ -37,6 +39,7 @@ connectDB();
 app.use('/auth', authRoutes);
 app.use('/admin',questionRoutes);
 app.use('/article',articleRoutes);
+app.use('/user', userQuestionInteractionRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
