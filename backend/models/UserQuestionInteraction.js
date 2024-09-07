@@ -14,11 +14,11 @@ const userQuestionInteractionSchema = new mongoose.Schema({
     status: { 
         type: Boolean, 
         default: false 
-    },  // True if "ticked" by the user
+    },
     revision: { 
         type: Boolean, 
         default: false 
-    }   // True if "ticked" by the user
+    }
 });
 
 const UserQuestionInteraction = mongoose.model('UserQuestionInteraction', userQuestionInteractionSchema);
