@@ -86,7 +86,7 @@ const Login = () => {
                 </form>
                 <div className="mt-4 text-center">
                     <p className="text-gray-600 text-sm">
-                        Don't have an account? <Link to="/frontend/dsa-tracker/src/pages/Signup" className="text-blue-600 hover:underline">Sign Up</Link>
+                        Don't have an account? <Link to="/signup" className="text-blue-600 hover:underline">Sign Up</Link>
                     </p>
                 </div>
             </div>

@@ -98,7 +98,7 @@ const Signup = () => {
                     </button>
                     <div className="mt-4 text-center">
                         <p className="text-gray-600 text-sm">
-                            Already have an account? <Link to="/frontend/dsa-tracker/src/pages/Login"
+                            Already have an account? <Link to="/login"
                                                            className="text-blue-600 hover:underline">Login</Link>
                         </p>
                     </div>
