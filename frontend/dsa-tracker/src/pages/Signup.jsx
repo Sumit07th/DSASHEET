@@ -2,12 +2,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from "../utils/axiosInstance.js";
-import { authState } from "../recoil/atoms.js";
+import { authState } from "../recoil/atoms/authAtoms.js";
 import { useSetRecoilState } from "recoil";
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa'; // Import the cross icon
 
-const SignUp = () => {
+const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -108,4 +108,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default Signup;
