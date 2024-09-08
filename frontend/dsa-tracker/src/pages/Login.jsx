@@ -1,8 +1,8 @@
-// src/components/Auth/Login.js
+// src/components/Auth/Login.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { authState } from '../recoil/atoms.js';
+import { authState } from '../recoil/atoms/authAtoms.js';
 import axiosInstance from "../utils/axiosInstance.js";
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa'; // Import the cross icon
@@ -86,7 +86,7 @@ const Login = () => {
                 </form>
                 <div className="mt-4 text-center">
                     <p className="text-gray-600 text-sm">
-                        Don't have an account? <Link to="/SignUp" className="text-blue-600 hover:underline">Sign Up</Link>
+                        Don't have an account? <Link to="/frontend/dsa-tracker/src/pages/Signup" className="text-blue-600 hover:underline">Sign Up</Link>
                     </p>
                 </div>
             </div>

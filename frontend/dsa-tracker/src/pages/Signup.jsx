@@ -2,12 +2,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from "../utils/axiosInstance.js";
-import { authState } from "../recoil/atoms.js";
+import { authState } from "../recoil/atoms/authAtoms.js";
 import { useSetRecoilState } from "recoil";
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa'; // Import the cross icon
 
-const SignUp = () => {
+const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -98,7 +98,7 @@ const SignUp = () => {
                     </button>
                     <div className="mt-4 text-center">
                         <p className="text-gray-600 text-sm">
-                            Already have an account? <Link to="/login"
+                            Already have an account? <Link to="/frontend/dsa-tracker/src/pages/Login"
                                                            className="text-blue-600 hover:underline">Login</Link>
                         </p>
                     </div>
@@ -108,4 +108,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default Signup;
