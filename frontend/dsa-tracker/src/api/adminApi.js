@@ -18,6 +18,7 @@ export const createQuestion = async (questionData) => {
 export const fetchQuestions = async () => {
     try {
         const response = await adminAxiosInstance.get('/admin/questions');
+        console.log(response.data);
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {

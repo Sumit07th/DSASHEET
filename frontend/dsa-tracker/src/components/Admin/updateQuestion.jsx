@@ -21,6 +21,7 @@ const UpdateQuestion = () => {
                 const questionToUpdate = questions.find(q => q._id === id);
                 if (questionToUpdate) {
                     setFormData(questionToUpdate);
+                    console.log("Form Data",formData)
                 } else {
                     console.error('Question not found');
                     // Handle case where question is not found
@@ -79,7 +80,7 @@ const UpdateQuestion = () => {
                     <input
                         type="text"
                         name="article"
-                        value={formData.article}
+                        value={formData.article.topic}
                         onChange={handleChange}
                         className="mt-1 block w-full p-2 border border-gray-300 rounded"
                         required
