@@ -38,7 +38,7 @@ connectDB();
 // Route handlers
 app.use('/auth', authRoutes);
 app.use('/admin',questionRoutes);
-app.use('/article',articleRoutes);
+//app.use('/article',articleRoutes);
 app.use('/user', userQuestionInteractionRoutes);
 
 // Error handling middleware

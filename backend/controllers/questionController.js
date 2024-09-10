@@ -1,23 +1,18 @@
 const Question = require('../models/questionModel');
 
-
 // Create a new question (Admin Only)
 exports.createQuestion = async (req, res) => {
     try {
-        const { topic,status, question, article, videoLink, platformLink, notes, difficulty, revision } = req.body;
+        const { topic, question, article, videoLink, platformLink, difficulty } = req.body;
 
-        
         // Create a new question instance
         const newQuestion = new Question({
             topic,
-            status,
             question,
-            article,
+            article, // This should be an object matching the articleSchema
             videoLink,
             platformLink,
-            notes,
-            difficulty,
-            revision
+            difficulty
         });
 
         // Save the question to the database
@@ -33,8 +28,8 @@ exports.createQuestion = async (req, res) => {
 // Update a question (Admin Only)
 exports.updateQuestion = async (req, res) => {
     try {
-        const { id } = req.params;  // Get the question ID from params
-        const updates = req.body;   // Get the fields to be updated from the request body
+        const { id } = req.params;
+        const updates = req.body;
 
         // Find the question by ID and update it
         const updatedQuestion = await Question.findByIdAndUpdate(id, updates, { new: true });
@@ -53,7 +48,7 @@ exports.updateQuestion = async (req, res) => {
 // Delete a question (Admin Only)
 exports.deleteQuestion = async (req, res) => {
     try {
-        const { id } = req.params;  // Get the question ID from params
+        const { id } = req.params;
 
         // Find the question by ID and delete it
         const deletedQuestion = await Question.findByIdAndDelete(id);

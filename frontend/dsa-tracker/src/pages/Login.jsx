@@ -23,23 +23,41 @@ const Login = () => {
                 email: email,
                 password: password,
             });
-            console.log(response);
 
-            // Save the token to localStorage
+            console.log(response); // Add this to inspect the response
+
+            // Clear any previous token and role
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+
+            // Save the new token to localStorage
             localStorage.setItem('token', response.data.token);
+
+            // Check if role is present in response data
+            const userRole = response.data.role || 'user'; // Default to 'user' if not provided
+            localStorage.setItem('role', userRole);
 
             // Update Recoil auth state
             setAuth({
                 isLoggedIn: true,
-                user: { email: response.data.email },
+                user: {
+                    email: response.data.email,
+                    role: userRole // Use the role from the response
+                },
             });
 
-            // Navigate to the homepage or another route after login
-            navigate('/');
+            if (userRole === 'admin') {
+                navigate('/admin-dashboard'); // Redirect to admin dashboard
+            } else {
+                navigate('/user-dashboard'); // Redirect to user dashboard
+            }
         } catch (err) {
-            setError(err.message);
+            console.error('Login error:', err.response?.data || err.message);
+            setError(err.response?.data?.message || 'Login failed');
         }
     };
+
+
 
     const handleClose = () => {
         navigate('/');

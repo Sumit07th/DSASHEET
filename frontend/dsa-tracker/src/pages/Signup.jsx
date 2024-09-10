@@ -29,17 +29,21 @@ const Signup = () => {
 
             // Save the token to localStorage
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('role', response.data.role);
 
             // Update Recoil auth state
             setAuth({
                 isLoggedIn: true,
-                user: { email: response.data.email },
+                user: {
+                    email: response.data.email,
+                    role: response.data.role,
+                },
             });
 
             // Redirect to the Home page after successful registration
-            navigate('/');
+            navigate('/user-dashboard');
         } catch (err) {
-            setError(err.message);
+            setError(err.response?.data?.message || err.message);
         }
     };
 
