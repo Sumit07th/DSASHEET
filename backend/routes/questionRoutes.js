@@ -1,5 +1,13 @@
 const express = require('express');
-const { createQuestion, updateQuestion, deleteQuestion, getAllQuestions, getQuestionById } = require('../controllers/questionController');
+const {
+    createQuestion,
+    updateQuestion,
+    deleteQuestion,
+    getAllQuestions,
+    getQuestionById,
+    addSolutionToArticle,
+    deleteSolutionFromArticle
+} = require('../controllers/questionController');
 const { authenticateToken } = require('../middleware/authMiddleware');
 const {isAdmin}  = require('../middleware/authMiddleware'); // If using a separate file
 const {
@@ -17,5 +25,11 @@ router.get('/questions/:id', getQuestionById);
 router.post('/questions', authenticateToken, isAdmin, createQuestion);
 router.put('/questions/:id', authenticateToken, isAdmin, updateQuestion);
 router.delete('/questions/:id', authenticateToken, isAdmin, deleteQuestion);
+// Add solution to an article
+router.post('/questions/:id/solutions', authenticateToken, isAdmin,addSolutionToArticle);
+// Route for deleting a solution from an article
+router.delete('/questions/:id/solutions/:solutionId',authenticateToken, isAdmin, deleteSolutionFromArticle);
+
+
 
 module.exports = router;

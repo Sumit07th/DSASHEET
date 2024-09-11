@@ -45,6 +45,63 @@ exports.updateQuestion = async (req, res) => {
     }
 };
 
+// Add a solution to an article
+exports.addSolutionToArticle = async (req, res) => {
+    try {
+        const { id } = req.params; // ID of the question
+        const { approach, code } = req.body; // New solution data
+
+        // Find the question by ID
+        const question = await Question.findById(id);
+
+        if (!question || !question.article) {
+            return res.status(404).json({ message: 'Question or article not found.' });
+        }
+
+        // Add new solution to article's solutions array
+        question.article.solutions.push({ approach, code });
+
+        // Save the updated question
+        await question.save();
+
+        res.status(200).json({ message: 'Solution added successfully.', question });
+    } catch (error) {
+        console.error('Error adding solution:', error);
+        res.status(500).json({ message: 'Error adding solution.', error });
+    }
+};
+
+// Delete a solution from an article
+exports.deleteSolutionFromArticle = async (req, res) => {
+    try {
+        const { id, solutionId } = req.params; // ID of the question and solution
+
+        // Find the question by ID
+        const question = await Question.findById(id);
+
+        if (!question || !question.article) {
+            return res.status(404).json({ message: 'Question or article not found.' });
+        }
+
+        // Check if there are enough solutions before deletion
+        if (question.article.solutions.length <= 1) {
+            return res.status(400).json({ message: 'Cannot delete solution; at least one solution is required.' });
+        }
+
+        // Remove the solution from article's solutions array
+        question.article.solutions = question.article.solutions.filter(solution => solution._id.toString() !== solutionId);
+
+        // Save the updated question
+        await question.save();
+
+        res.status(200).json({ message: 'Solution deleted successfully.', question });
+    } catch (error) {
+        console.error('Error deleting solution:', error);
+        res.status(500).json({ message: 'Error deleting solution.', error });
+    }
+};
+
+
 // Delete a question (Admin Only)
 exports.deleteQuestion = async (req, res) => {
     try {

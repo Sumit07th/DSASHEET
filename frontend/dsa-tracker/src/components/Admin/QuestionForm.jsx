@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import { createQuestion } from '../../api/adminApi';
 
 const QuestionForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         topic: '',
         question: '',
@@ -18,6 +20,7 @@ const QuestionForm = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
 
         if (name.startsWith('article.')) {
             const articleField = name.split('.')[1];
@@ -88,6 +91,7 @@ const QuestionForm = () => {
         try {
             await createQuestion(formData);
             alert('Question created successfully');
+            navigate('/admin-dashboard');
         } catch (error) {
             alert(`Error creating question: ${error.message}`);
         }
