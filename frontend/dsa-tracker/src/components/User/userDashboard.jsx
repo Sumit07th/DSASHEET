@@ -1,14 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserQuestions, updateUserQuestionStatusOrRevision } from '../../api/userApi';
-import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon, LinkIcon, GlobeAltIcon } from '@heroicons/react/24/solid';
+import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon } from '@heroicons/react/24/solid';
 
+// Import icons for platforms
+import leetcodeIcon from '../../assets/icons/leetcode-icon.svg';
+import geeksforgeeksIcon from '../../assets/icons/geeksforgeeks-icon.svg';
+import codingninjasIcon from '../../assets/icons/codingninjas-icon.svg';
+import defaultPlatformIcon from '../../assets/icons/link-icon.svg';
+
+// Import icons for video sources
+import youtubeIcon from '../../assets/icons/youtube-icon.svg';
+import defaultVideoIcon from '../../assets/icons/video.svg';
+
+// Define mappings for platform and video icons
 const platformIcons = {
-    leetcode: 'https://path-to-leetcode-icon',   // Replace with actual URL
-    geeksforgeeks: 'https://path-to-geeksforgeeks-icon', // Replace with actual URL
-    codingninjas: 'https://path-to-codingninjas-icon', // Replace with actual URL
-    default: 'https://path-to-default-platform-icon' // Replace with actual URL
+    leetcode: leetcodeIcon,
+    geeksforgeeks: geeksforgeeksIcon,
+    codingninjas: codingninjasIcon,
+    default: defaultPlatformIcon
 };
 
+const videoIcons = {
+    youtube: youtubeIcon,
+    default: defaultVideoIcon
+};
 const UserDashboard = () => {
     const [questions, setQuestions] = useState([]);
     const [expandedTopic, setExpandedTopic] = useState(null);
@@ -129,15 +144,19 @@ const UserDashboard = () => {
                                                                         className="text-blue-500 hover:text-blue-700 underline flex items-center"
                                                                     >
                                                                         <DocumentIcon className="w-5 h-5 mr-1" />
-                                                                        {question.article?.topic}
+
                                                                     </button>
                                                                 ) : 'No article'}
                                                             </td>
                                                             <td className="py-3 px-4 border-b border-gray-200">
                                                                 {question.videoLink ? (
                                                                     <a href={question.videoLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 underline flex items-center">
-                                                                        <VideoCameraIcon className="w-5 h-5 mr-1" />
-                                                                        Video Link
+                                                                        <img
+                                                                            src={videoIcons.youtube} // Assuming video is from YouTube
+                                                                            alt="Video Icon"
+                                                                            className="w-5 h-5 mr-1"
+                                                                        />
+
                                                                     </a>
                                                                 ) : 'No Video Link'}
                                                             </td>
@@ -149,7 +168,7 @@ const UserDashboard = () => {
                                                                             alt="Platform Icon"
                                                                             className="w-5 h-5 mr-1"
                                                                         />
-                                                                        {question.platformLink}
+
                                                                     </a>
                                                                 ) : 'No Platform Link'}
                                                             </td>
