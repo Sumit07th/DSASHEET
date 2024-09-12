@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserQuestions, updateUserQuestionStatusOrRevision } from '../../api/userApi';
-import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon, LinkIcon, GlobeAltIcon } from '@heroicons/react/24/solid';
+import { fetchUserQuestions, updateUserQuestionStatusOrRevision, updateUserNotes,deleteUserNote } from '../../api/userApi';
+import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon, LinkIcon, GlobeAltIcon, PencilIcon, TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
 import LeetcodeIcon from '../../assets/icons/leetcode-icon.svg';
 import GeeksforGeeksIcon from '../../assets/icons/geeksforgeeks-icon.svg';
 import CodingNinjasIcon from '../../assets/icons/codingninjas-icon.svg';
@@ -24,6 +24,10 @@ const UserDashboard = () => {
     const [questions, setQuestions] = useState([]);
     const [expandedTopic, setExpandedTopic] = useState(null);
     const [expandedDifficulty, setExpandedDifficulty] = useState({});
+    const [editingNote, setEditingNote] = useState(null);
+    const [noteText, setNoteText] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedQuestionId, setSelectedQuestionId] = useState(null);
 
     useEffect(() => {
         const loadQuestions = async () => {
@@ -56,6 +60,47 @@ const UserDashboard = () => {
             console.error('Error updating question interaction:', error);
         }
     };
+
+    const handleNoteButtonClick = (questionId) => {
+        const question = questions.find(q => q._id === questionId);
+        setEditingNote(question.note || ''); // Set the note for editing if it exists
+        setSelectedQuestionId(questionId);
+        setModalVisible(true);
+    };
+
+    const handleNoteSave = async () => {
+        try {
+            await updateUserNotes(selectedQuestionId, noteText);
+            setQuestions(prevQuestions =>
+                prevQuestions.map(q =>
+                    q._id === selectedQuestionId
+                        ? { ...q, note: noteText }
+                        : q
+                )
+            );
+            setModalVisible(false);
+        } catch (error) {
+            console.error('Error saving note:', error);
+        }
+    };
+
+    const handleNoteDelete = async () => {
+        try {
+            await deleteUserNote(selectedQuestionId); // Call API to delete note
+            setQuestions(prevQuestions =>
+                prevQuestions.map(q =>
+                    q._id === selectedQuestionId
+                        ? { ...q, note: '' } // Update state to reflect note deletion
+                        : q
+                )
+            );
+            setModalVisible(false); // Close the modal
+        } catch (error) {
+            console.error('Error deleting note:', error); // Log error to console
+            alert('There was an error deleting the note. Please try again.'); // Show user-friendly message
+        }
+    };
+
 
     const toggleTopic = (topic) => {
         setExpandedTopic(expandedTopic === topic ? null : topic);
@@ -137,6 +182,7 @@ const UserDashboard = () => {
                                                         <th className="py-3 px-4 text-left text-gray-600">Video Link</th>
                                                         <th className="py-3 px-4 text-left text-gray-600">Platform Link</th>
                                                         <th className="py-3 px-4 text-left text-gray-600">Revision</th>
+                                                        <th className="py-3 px-4 text-left text-gray-600">Notes</th> {/* Added Notes column */}
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -157,14 +203,18 @@ const UserDashboard = () => {
                                                                         onClick={() => window.open(`/article/${question._id}`, '_blank')}
                                                                         className="text-blue-500 hover:text-blue-700 underline flex items-center"
                                                                     >
-                                                                        <DocumentIcon className="w-5 h-5 mr-1" />
+                                                                        <DocumentIcon className="w-4 h-4 mr-1"/>
 
                                                                     </button>
-                                                                ) : 'No article'}
+                                                                ) : (
+                                                                    'N/A'
+                                                                )}
                                                             </td>
                                                             <td className="py-3 px-4 border-b border-gray-200">
                                                                 {question.videoLink ? (
-                                                                    <a href={question.videoLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 underline flex items-center">
+                                                                    <a href={question.videoLink} target="_blank"
+                                                                       rel="noopener noreferrer"
+                                                                       className="text-blue-500 hover:text-blue-700 underline flex items-center">
                                                                         <img
                                                                             src={getVideoIcon(question.videoLink)}
                                                                             alt="Video Icon"
@@ -176,21 +226,53 @@ const UserDashboard = () => {
                                                             </td>
                                                             <td className="py-3 px-4 border-b border-gray-200">
                                                                 {question.platformLink ? (
-                                                                    <a href={question.platformLink} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                                                                    <button
+                                                                        onClick={() => window.open(question.platformLink, '_blank')}
+                                                                        className="text-blue-500 hover:text-blue-700 underline flex items-center"
+                                                                    >
                                                                         <img
                                                                             src={getPlatformIcon(question.platformLink)}
-                                                                            alt="Platform Icon"
-                                                                            className="w-5 h-5 mr-1"
-                                                                        />
+                                                                            alt="platform" className="w-5 h-5 mr-1"/>
 
-                                                                    </a>
-                                                                ) : 'No Platform Link'}
+                                                                    </button>
+                                                                ) : (
+                                                                    'N/A'
+                                                                )}
                                                             </td>
                                                             <td className="py-3 px-4 border-b border-gray-200">
-                                                                <StarIcon
-                                                                    className={`w-5 h-5 ${question.userRevision ? 'text-yellow-400' : 'text-gray-300'}`}
-                                                                    onClick={() => handleCheckboxChange(question._id, 'revision')}
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={question.userRevision}
+                                                                    onChange={() => handleCheckboxChange(question._id, 'revision')}
+                                                                    className="mr-2"
                                                                 />
+                                                            </td>
+                                                            <td className="py-3 px-4 border-b border-gray-200">
+                                                                {question.note ? (
+                                                                    <>
+                                                                        <button
+                                                                            onClick={() => handleNoteButtonClick(question._id)}
+                                                                            className="text-blue-500 hover:text-blue-700 underline flex items-center"
+                                                                        >
+                                                                            <PencilIcon className="w-4 h-4 mr-1"/>
+                                                                            Edit Notes
+                                                                        </button>
+                                                                        <button
+                                                                            onClick={() => handleNoteDelete()}
+                                                                            className="text-red-500 hover:text-red-700 ml-4"
+                                                                        >
+                                                                            <TrashIcon className="w-4 h-4"/>
+                                                                        </button>
+                                                                    </>
+                                                                ) : (
+                                                                    <button
+                                                                        onClick={() => handleNoteButtonClick(question._id)}
+                                                                        className="text-blue-500 hover:text-blue-700 underline flex items-center"
+                                                                    >
+                                                                        <PlusIcon className="w-4 h-4 mr-1"/>
+                                                                        Add Note
+                                                                    </button>
+                                                                )}
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -205,6 +287,34 @@ const UserDashboard = () => {
                     </div>
                 ))}
             </div>
+
+            {modalVisible && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm mx-auto">
+                        <h2 className="text-xl font-semibold mb-4">Notes</h2>
+                        <textarea
+                            value={noteText}
+                            onChange={(e) => setNoteText(e.target.value)}
+                            className="w-full h-32 border border-gray-300 rounded-md p-2"
+                            placeholder="Write your notes here..."
+                        />
+                        <div className="mt-4 flex justify-end">
+                            <button
+                                onClick={() => setModalVisible(false)}
+                                className="bg-gray-500 text-white px-4 py-2 rounded-md mr-2"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleNoteSave}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -31,6 +31,7 @@ export const updateUserQuestionStatusOrRevision = async (questionId, status, rev
     }
 };
 
+
 // Fetch article by questionId
 export const fetchArticle = async (questionId) => {
     try {
@@ -42,5 +43,31 @@ export const fetchArticle = async (questionId) => {
         } else {
             throw new Error('An unexpected error occurred while fetching the article.');
         }
+    }
+};
+
+// Update notes for a specific question
+export const updateUserNotes = async (questionId, notes) => {
+    try {
+        const response = await userAxiosInstance.put(`/user/questions/${questionId}/notes`, {
+            notes,
+        });
+        return response.data;  // Returns the updated notes
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw error.response.data;
+        } else {
+            throw new Error('An unexpected error occurred while updating notes.');
+        }
+    }
+};
+
+export const deleteUserNote = async (questionId) => {
+    try {
+        const response = await axios.delete(`/user/questions/${questionId}/notes`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting note:', error);
+        throw error; // Re-throw the error to be handled by the caller
     }
 };
