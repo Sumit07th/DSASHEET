@@ -1,11 +1,17 @@
 const UserQuestionInteraction = require('../models/UserQuestionInteraction');
+const Question = require('../models/questionModel');  // Ensure this is imported
 
 // Update status or revision for a specific question for a user
 exports.updateStatusOrRevision = async (req, res) => {
     try {
-        const { userId } = req.user;
+        const userId = req.user._id;  // Ensure consistency with getUserQuestions
         const { questionId } = req.params;
         const { status, revision } = req.body;
+
+        // Validate input (ensure questionId, status, and revision are provided)
+        if (!questionId || (status === undefined && revision === undefined)) {
+            return res.status(400).json({ message: 'Missing required fields: questionId, status, or revision' });
+        }
 
         // Find the interaction or create a new one
         const interaction = await UserQuestionInteraction.findOneAndUpdate(
@@ -21,12 +27,18 @@ exports.updateStatusOrRevision = async (req, res) => {
     }
 };
 
+// Get all questions and user's status/revision
 exports.getUserQuestions = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user._id;  // Consistency in userId retrieval
+
+        // Fetch all questions
         const questions = await Question.find();
 
-        const interactions = await UserQuestionInteraction.find({ userId }).lean();  // Get user's interactions
+        // Fetch the user's interactions (status and revision)
+        const interactions = await UserQuestionInteraction.find({ userId }).lean();
+
+        // Create a map of interactions for easier lookup
         const interactionMap = interactions.reduce((map, interaction) => {
             map[interaction.questionId] = interaction;
             return map;
@@ -36,7 +48,7 @@ exports.getUserQuestions = async (req, res) => {
         const questionsWithUserStatus = questions.map(question => {
             const interaction = interactionMap[question._id.toString()];
             return {
-                ...question._doc,
+                ...question._doc,  // Use Mongoose document data
                 userStatus: interaction ? interaction.status : false,
                 userRevision: interaction ? interaction.revision : false
             };
@@ -44,6 +56,7 @@ exports.getUserQuestions = async (req, res) => {
 
         res.status(200).json(questionsWithUserStatus);
     } catch (error) {
+        console.error('Error fetching questions:', error);
         res.status(500).json({ message: 'Error fetching questions.', error });
     }
 };
