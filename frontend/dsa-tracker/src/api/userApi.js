@@ -30,3 +30,17 @@ export const updateUserQuestionStatusOrRevision = async (questionId, status, rev
         }
     }
 };
+
+// Fetch article by questionId
+export const fetchArticle = async (questionId) => {
+    try {
+        const response = await userAxiosInstance.get(`/user/questions/${questionId}/article`);
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw error.response.data;
+        } else {
+            throw new Error('An unexpected error occurred while fetching the article.');
+        }
+    }
+};

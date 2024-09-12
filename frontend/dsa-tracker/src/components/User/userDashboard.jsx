@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserQuestions, updateUserQuestionStatusOrRevision } from '../../api/userApi';
-import { ChevronDownIcon, ChevronUpIcon, StarIcon } from '@heroicons/react/24/solid';
+import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon, LinkIcon, GlobeAltIcon } from '@heroicons/react/24/solid';
+
+const platformIcons = {
+    leetcode: 'https://path-to-leetcode-icon',   // Replace with actual URL
+    geeksforgeeks: 'https://path-to-geeksforgeeks-icon', // Replace with actual URL
+    codingninjas: 'https://path-to-codingninjas-icon', // Replace with actual URL
+    default: 'https://path-to-default-platform-icon' // Replace with actual URL
+};
 
 const UserDashboard = () => {
     const [questions, setQuestions] = useState([]);
@@ -115,18 +122,34 @@ const UserDashboard = () => {
                                                                 />
                                                             </td>
                                                             <td className="py-3 px-4 border-b border-gray-200">{question.question}</td>
-                                                            <td className="py-3 px-4 border-b border-gray-200">{question.article?.topic || 'No article'}</td>
+                                                            <td className="py-3 px-4 border-b border-gray-200">
+                                                                {question.article?.topic ? (
+                                                                    <button
+                                                                        onClick={() => window.open(`/article/${question._id}`, '_blank')}
+                                                                        className="text-blue-500 hover:text-blue-700 underline flex items-center"
+                                                                    >
+                                                                        <DocumentIcon className="w-5 h-5 mr-1" />
+                                                                        {question.article?.topic}
+                                                                    </button>
+                                                                ) : 'No article'}
+                                                            </td>
                                                             <td className="py-3 px-4 border-b border-gray-200">
                                                                 {question.videoLink ? (
-                                                                    <a href={question.videoLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 underline">
+                                                                    <a href={question.videoLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 underline flex items-center">
+                                                                        <VideoCameraIcon className="w-5 h-5 mr-1" />
                                                                         Video Link
                                                                     </a>
                                                                 ) : 'No Video Link'}
                                                             </td>
                                                             <td className="py-3 px-4 border-b border-gray-200">
                                                                 {question.platformLink ? (
-                                                                    <a href={question.platformLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 underline">
-                                                                        Platform Link
+                                                                    <a href={question.platformLink} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                                                                        <img
+                                                                            src={platformIcons[question.platformLink.toLowerCase()] || platformIcons.default}
+                                                                            alt="Platform Icon"
+                                                                            className="w-5 h-5 mr-1"
+                                                                        />
+                                                                        {question.platformLink}
                                                                     </a>
                                                                 ) : 'No Platform Link'}
                                                             </td>

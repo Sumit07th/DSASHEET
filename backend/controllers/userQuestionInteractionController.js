@@ -60,3 +60,28 @@ exports.getUserQuestions = async (req, res) => {
         res.status(500).json({ message: 'Error fetching questions.', error });
     }
 };
+
+// Fetch article details by questionId
+exports.fetchArticleByQuestionId = async (req, res) => {
+    try {
+        const { questionId } = req.params;
+
+        // Validate questionId
+        if (!questionId) {
+            return res.status(400).json({ message: 'Question ID is required' });
+        }
+
+        // Find the question by ID and populate the article field
+        const question = await Question.findById(questionId).select('article');
+
+        // Check if the question exists
+        if (!question) {
+            return res.status(404).json({ message: 'Question not found' });
+        }
+
+        res.status(200).json(question.article);
+    } catch (error) {
+        console.error('Error fetching article:', error);
+        res.status(500).json({ message: 'Error fetching article.', error });
+    }
+};
