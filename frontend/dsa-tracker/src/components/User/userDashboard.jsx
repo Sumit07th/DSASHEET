@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUserQuestions, updateUserQuestionStatusOrRevision } from '../../api/userApi';
-import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon } from '@heroicons/react/24/solid';
+import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon, LinkIcon, GlobeAltIcon } from '@heroicons/react/24/solid';
+import LeetcodeIcon from '../../assets/icons/leetcode-icon.svg';
+import GeeksforGeeksIcon from '../../assets/icons/geeksforgeeks-icon.svg';
+import CodingNinjasIcon from '../../assets/icons/codingninjas-icon.svg';
+import DefaultPlatformIcon from '../../assets/icons/link-icon.svg';
+import YoutubeIcon from '../../assets/icons/youtube-icon.svg';
+import DefaultVideoIcon from '../../assets/icons/video.svg';
 
-// Import icons for platforms
-import leetcodeIcon from '../../assets/icons/leetcode-icon.svg';
-import geeksforgeeksIcon from '../../assets/icons/geeksforgeeks-icon.svg';
-import codingninjasIcon from '../../assets/icons/codingninjas-icon.svg';
-import defaultPlatformIcon from '../../assets/icons/link-icon.svg';
-
-// Import icons for video sources
-import youtubeIcon from '../../assets/icons/youtube-icon.svg';
-import defaultVideoIcon from '../../assets/icons/video.svg';
-
-// Define mappings for platform and video icons
 const platformIcons = {
-    leetcode: leetcodeIcon,
-    geeksforgeeks: geeksforgeeksIcon,
-    codingninjas: codingninjasIcon,
-    default: defaultPlatformIcon
+    leetcode: LeetcodeIcon,
+    geeksforgeeks: GeeksforGeeksIcon,
+    codingninjas: CodingNinjasIcon,
+    default: DefaultPlatformIcon
 };
 
 const videoIcons = {
-    youtube: youtubeIcon,
-    default: defaultVideoIcon
+    youtube: YoutubeIcon,
+    default: DefaultVideoIcon
 };
+
 const UserDashboard = () => {
     const [questions, setQuestions] = useState([]);
     const [expandedTopic, setExpandedTopic] = useState(null);
@@ -49,7 +45,6 @@ const UserDashboard = () => {
 
         try {
             await updateUserQuestionStatusOrRevision(questionId, newStatus, newRevision);
-            // Update local state
             setQuestions(prevQuestions =>
                 prevQuestions.map(q =>
                     q._id === questionId
@@ -79,6 +74,25 @@ const UserDashboard = () => {
         acc[question.topic][question.difficulty].push(question);
         return acc;
     }, {});
+
+    // Function to get platform icon
+    const getPlatformIcon = (platformLink) => {
+        const platformKey = extractPlatformKey(platformLink);
+        return platformIcons[platformKey] || platformIcons.default;
+    };
+
+    // Function to extract platform key from URL
+    const extractPlatformKey = (url) => {
+        if (url.includes('leetcode.com')) return 'leetcode';
+        if (url.includes('geeksforgeeks.org')) return 'geeksforgeeks';
+        if (url.includes('codingninjas.com')) return 'codingninjas';
+        return 'default';
+    };
+
+    // Function to get video icon
+    const getVideoIcon = (videoLink) => {
+        return videoIcons.youtube || videoIcons.default;
+    };
 
     return (
         <div className="container mx-auto p-4">
@@ -152,7 +166,7 @@ const UserDashboard = () => {
                                                                 {question.videoLink ? (
                                                                     <a href={question.videoLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 underline flex items-center">
                                                                         <img
-                                                                            src={videoIcons.youtube} // Assuming video is from YouTube
+                                                                            src={getVideoIcon(question.videoLink)}
                                                                             alt="Video Icon"
                                                                             className="w-5 h-5 mr-1"
                                                                         />
@@ -164,7 +178,7 @@ const UserDashboard = () => {
                                                                 {question.platformLink ? (
                                                                     <a href={question.platformLink} target="_blank" rel="noopener noreferrer" className="flex items-center">
                                                                         <img
-                                                                            src={platformIcons[question.platformLink.toLowerCase()] || platformIcons.default}
+                                                                            src={getPlatformIcon(question.platformLink)}
                                                                             alt="Platform Icon"
                                                                             className="w-5 h-5 mr-1"
                                                                         />
@@ -176,7 +190,6 @@ const UserDashboard = () => {
                                                                 <StarIcon
                                                                     className={`w-5 h-5 ${question.userRevision ? 'text-yellow-400' : 'text-gray-300'}`}
                                                                     onClick={() => handleCheckboxChange(question._id, 'revision')}
-                                                                    style={{ cursor: 'pointer' }}
                                                                 />
                                                             </td>
                                                         </tr>
