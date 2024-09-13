@@ -4,7 +4,8 @@ const {
     getUserQuestions,
     fetchArticleByQuestionId,
     updateNotes,
-    deleteNote// If you're using a separate route for notes
+    deleteNote,
+    fetchUserNotes
 } = require('../controllers/userQuestionInteractionController');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/authMiddleware'); // Assuming you have authentication middleware
@@ -19,8 +20,10 @@ router.put('/questions/:questionId/notes', authenticateToken, updateNotes);
 router.get('/questions', authenticateToken, getUserQuestions);
 
 // Route to get article details by questionId
-router.get('/questions/:questionId/article', fetchArticleByQuestionId);
+router.get('/questions/:questionId/article',authenticateToken, fetchArticleByQuestionId);
 
-router.delete('/questions/:questionId/notes', deleteNote);
+router.delete('/questions/:questionId/notes',authenticateToken, deleteNote);
+
+router.get('/questions/:questionId/notes',authenticateToken,fetchUserNotes)
 
 module.exports = router;

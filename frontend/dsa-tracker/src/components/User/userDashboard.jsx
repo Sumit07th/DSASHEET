@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserQuestions, updateUserQuestionStatusOrRevision, updateUserNotes,deleteUserNote } from '../../api/userApi';
+import { fetchUserQuestions, updateUserQuestionStatusOrRevision, updateUserNotes, deleteUserNote, fetchUserNotes } from '../../api/userApi';
 import { ChevronDownIcon, ChevronUpIcon, StarIcon, DocumentIcon, VideoCameraIcon, LinkIcon, GlobeAltIcon, PencilIcon, TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
 import LeetcodeIcon from '../../assets/icons/leetcode-icon.svg';
 import GeeksforGeeksIcon from '../../assets/icons/geeksforgeeks-icon.svg';
@@ -33,9 +33,20 @@ const UserDashboard = () => {
         const loadQuestions = async () => {
             try {
                 const fetchedQuestions = await fetchUserQuestions();
-                setQuestions(fetchedQuestions);
+                const questionsWithNotes = await Promise.all(
+                    fetchedQuestions.map(async (question) => {
+                        try {
+                            const notes = await fetchUserNotes(question._id);
+                            return { ...question, notes: notes || '' }; // Merge notes with question
+                        } catch (error) {
+                            console.error(`Error fetching notes for question ${question._id}:`, error.message || error);
+                            return { ...question, notes: '' }; // Fallback to empty if notes fetch fails
+                        }
+                    })
+                );
+                setQuestions(questionsWithNotes);
             } catch (error) {
-                console.error('Error fetching questions:', error);
+                console.error('Error fetching questions:', error.message || error);
             }
         };
 
@@ -63,26 +74,48 @@ const UserDashboard = () => {
 
     const handleNoteButtonClick = (questionId) => {
         const question = questions.find(q => q._id === questionId);
-        setEditingNote(question.note || ''); // Set the note for editing if it exists
+
+        // Check if notes is already an object or a JSON string
+        let noteText = '';
+        if (typeof question.notes === 'string') {
+            try {
+                const parsedNotes = JSON.parse(question.notes);
+                noteText = parsedNotes.notes || ''; // Adjust this based on your actual structure
+            } catch {
+                noteText = question.notes; // Fallback if JSON parsing fails
+            }
+        } else if (typeof question.notes === 'object') {
+            noteText = question.notes.notes || ''; // Adjust this based on your actual structure
+        }
+
+        setEditingNote(noteText);
+        setNoteText(noteText);
         setSelectedQuestionId(questionId);
         setModalVisible(true);
     };
 
+
+
+
     const handleNoteSave = async () => {
         try {
-            await updateUserNotes(selectedQuestionId, noteText);
-            setQuestions(prevQuestions =>
-                prevQuestions.map(q =>
-                    q._id === selectedQuestionId
-                        ? { ...q, note: noteText }
-                        : q
-                )
-            );
-            setModalVisible(false);
+            if (selectedQuestionId) {
+                // Directly use noteText without JSON.stringify
+                await updateUserNotes(selectedQuestionId, noteText);
+                setQuestions(prevQuestions =>
+                    prevQuestions.map(q =>
+                        q._id === selectedQuestionId
+                            ? { ...q, notes: noteText }
+                            : q
+                    )
+                );
+                setModalVisible(false);
+            }
         } catch (error) {
             console.error('Error saving note:', error);
         }
     };
+
 
     const handleNoteDelete = async () => {
         try {
@@ -90,7 +123,7 @@ const UserDashboard = () => {
             setQuestions(prevQuestions =>
                 prevQuestions.map(q =>
                     q._id === selectedQuestionId
-                        ? { ...q, note: '' } // Update state to reflect note deletion
+                        ? { ...q, notes: '' } // Update state to reflect note deletion
                         : q
                 )
             );
@@ -100,7 +133,6 @@ const UserDashboard = () => {
             alert('There was an error deleting the note. Please try again.'); // Show user-friendly message
         }
     };
-
 
     const toggleTopic = (topic) => {
         setExpandedTopic(expandedTopic === topic ? null : topic);
@@ -182,95 +214,62 @@ const UserDashboard = () => {
                                                         <th className="py-3 px-4 text-left text-gray-600">Video Link</th>
                                                         <th className="py-3 px-4 text-left text-gray-600">Platform Link</th>
                                                         <th className="py-3 px-4 text-left text-gray-600">Revision</th>
-                                                        <th className="py-3 px-4 text-left text-gray-600">Notes</th> {/* Added Notes column */}
+                                                        <th className="py-3 px-4 text-left text-gray-600">Notes</th> {/* Notes column */}
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {groupedQuestions[topic][difficulty]?.map(question => (
-                                                        <tr key={question._id} className="hover:bg-gray-50 transition">
-                                                            <td className="py-3 px-4 border-b border-gray-200">
+                                                    {groupedQuestions[topic][difficulty].map(question => (
+                                                        <tr key={question._id} className="border-b border-gray-200">
+                                                            <td className="py-3 px-4">
                                                                 <input
                                                                     type="checkbox"
                                                                     checked={question.userStatus}
                                                                     onChange={() => handleCheckboxChange(question._id, 'status')}
-                                                                    className="mr-2"
                                                                 />
                                                             </td>
-                                                            <td className="py-3 px-4 border-b border-gray-200">{question.question}</td>
-                                                            <td className="py-3 px-4 border-b border-gray-200">
-                                                                {question.article?.topic ? (
-                                                                    <button
-                                                                        onClick={() => window.open(`/article/${question._id}`, '_blank')}
-                                                                        className="text-blue-500 hover:text-blue-700 underline flex items-center"
-                                                                    >
-                                                                        <DocumentIcon className="w-4 h-4 mr-1"/>
-
-                                                                    </button>
-                                                                ) : (
-                                                                    'N/A'
-                                                                )}
-                                                            </td>
-                                                            <td className="py-3 px-4 border-b border-gray-200">
-                                                                {question.videoLink ? (
-                                                                    <a href={question.videoLink} target="_blank"
-                                                                       rel="noopener noreferrer"
-                                                                       className="text-blue-500 hover:text-blue-700 underline flex items-center">
-                                                                        <img
-                                                                            src={getVideoIcon(question.videoLink)}
-                                                                            alt="Video Icon"
-                                                                            className="w-5 h-5 mr-1"
-                                                                        />
-
+                                                            <td className="py-3 px-4 text-gray-700">{question.title}</td>
+                                                            <td className="py-3 px-4">
+                                                                {question.articleLink ? (
+                                                                    <a href={question.articleLink} target="_blank" rel="noopener noreferrer">
+                                                                        <img src={getPlatformIcon(question.articleLink)} alt="Article Icon" className="w-6 h-6" />
                                                                     </a>
-                                                                ) : 'No Video Link'}
-                                                            </td>
-                                                            <td className="py-3 px-4 border-b border-gray-200">
-                                                                {question.platformLink ? (
-                                                                    <button
-                                                                        onClick={() => window.open(question.platformLink, '_blank')}
-                                                                        className="text-blue-500 hover:text-blue-700 underline flex items-center"
-                                                                    >
-                                                                        <img
-                                                                            src={getPlatformIcon(question.platformLink)}
-                                                                            alt="platform" className="w-5 h-5 mr-1"/>
-
-                                                                    </button>
                                                                 ) : (
-                                                                    'N/A'
+                                                                    <DocumentIcon className="w-6 h-6 text-gray-500" />
                                                                 )}
                                                             </td>
-                                                            <td className="py-3 px-4 border-b border-gray-200">
+                                                            <td className="py-3 px-4">
+                                                                {question.videoLink ? (
+                                                                    <a href={question.videoLink} target="_blank" rel="noopener noreferrer">
+                                                                        <img src={getVideoIcon(question.videoLink)} alt="Video Icon" className="w-6 h-6" />
+                                                                    </a>
+                                                                ) : (
+                                                                    <VideoCameraIcon className="w-6 h-6 text-gray-500" />
+                                                                )}
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                {question.platformLink ? (
+                                                                    <a href={question.platformLink} target="_blank" rel="noopener noreferrer">
+                                                                        <img src={getPlatformIcon(question.platformLink)} alt="Platform Icon" className="w-6 h-6" />
+                                                                    </a>
+                                                                ) : (
+                                                                    <LinkIcon className="w-6 h-6 text-gray-500" />
+                                                                )}
+                                                            </td>
+                                                            <td className="py-3 px-4">
                                                                 <input
                                                                     type="checkbox"
                                                                     checked={question.userRevision}
                                                                     onChange={() => handleCheckboxChange(question._id, 'revision')}
-                                                                    className="mr-2"
                                                                 />
                                                             </td>
-                                                            <td className="py-3 px-4 border-b border-gray-200">
-                                                                {question.note ? (
-                                                                    <>
-                                                                        <button
-                                                                            onClick={() => handleNoteButtonClick(question._id)}
-                                                                            className="text-blue-500 hover:text-blue-700 underline flex items-center"
-                                                                        >
-                                                                            <PencilIcon className="w-4 h-4 mr-1"/>
-                                                                            Edit Notes
-                                                                        </button>
-                                                                        <button
-                                                                            onClick={() => handleNoteDelete()}
-                                                                            className="text-red-500 hover:text-red-700 ml-4"
-                                                                        >
-                                                                            <TrashIcon className="w-4 h-4"/>
-                                                                        </button>
-                                                                    </>
+                                                            <td className="py-3 px-4">
+                                                                {question.notes ? (
+                                                                    <button onClick={() => handleNoteButtonClick(question._id)} className="text-blue-500 underline">
+                                                                        Edit Notes
+                                                                    </button>
                                                                 ) : (
-                                                                    <button
-                                                                        onClick={() => handleNoteButtonClick(question._id)}
-                                                                        className="text-blue-500 hover:text-blue-700 underline flex items-center"
-                                                                    >
-                                                                        <PlusIcon className="w-4 h-4 mr-1"/>
-                                                                        Add Note
+                                                                    <button onClick={() => handleNoteButtonClick(question._id)} className="text-blue-500 underline">
+                                                                        Add Notes
                                                                     </button>
                                                                 )}
                                                             </td>
@@ -287,34 +286,42 @@ const UserDashboard = () => {
                     </div>
                 ))}
             </div>
-
             {modalVisible && (
-                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Notes</h2>
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                        <h2 className="text-xl font-bold mb-4">{editingNote ? 'Edit Note' : 'Add Note'}</h2>
                         <textarea
                             value={noteText}
                             onChange={(e) => setNoteText(e.target.value)}
-                            className="w-full h-32 border border-gray-300 rounded-md p-2"
-                            placeholder="Write your notes here..."
+                            className="w-full p-2 border border-gray-300 rounded-lg mb-4"
+                            rows="4"
                         />
-                        <div className="mt-4 flex justify-end">
-                            <button
-                                onClick={() => setModalVisible(false)}
-                                className="bg-gray-500 text-white px-4 py-2 rounded-md mr-2"
-                            >
-                                Cancel
-                            </button>
+                        <div className="flex justify-between">
                             <button
                                 onClick={handleNoteSave}
-                                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                             >
                                 Save
+                            </button>
+                            {editingNote && (
+                                <button
+                                    onClick={handleNoteDelete}
+                                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                                >
+                                    Delete
+                                </button>
+                            )}
+                            <button
+                                onClick={() => setModalVisible(false)}
+                                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400"
+                            >
+                                Cancel
                             </button>
                         </div>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

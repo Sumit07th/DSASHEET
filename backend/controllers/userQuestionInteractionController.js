@@ -26,6 +26,7 @@ exports.updateStatusOrRevision = async (req, res) => {
         res.status(500).json({ message: 'Error updating status/revision.', error });
     }
 };
+
 // Get all questions and user's status, revision, and notes
 exports.getUserQuestions = async (req, res) => {
     try {
@@ -60,7 +61,6 @@ exports.getUserQuestions = async (req, res) => {
         res.status(500).json({ message: 'Error fetching questions.', error });
     }
 };
-
 
 // Fetch article details by questionId
 exports.fetchArticleByQuestionId = async (req, res) => {
@@ -110,6 +110,35 @@ exports.updateNotes = async (req, res) => {
     } catch (error) {
         console.error('Error updating notes:', error);
         res.status(500).json({ message: 'Error updating notes.', error });
+    }
+};
+
+exports.fetchUserNotes = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { questionId } = req.params;
+
+        console.log('Fetching notes for user:', userId);
+        console.log('For question ID:', questionId);
+
+        // Validate input
+        if (!questionId) {
+            return res.status(400).json({ message: 'Question ID is required' });
+        }
+
+        console.log('Querying UserQuestionInteraction with:', { userId, questionId });
+        const interaction = await UserQuestionInteraction.findOne({ userId, questionId }).lean();
+        console.log('Interaction result:', interaction);
+
+        // Check if the interaction exists
+        if (!interaction || !interaction.notes) {
+            return res.status(404).json({ message: 'Notes not found' });
+        }
+
+        res.status(200).json({ notes: interaction.notes });
+    } catch (error) {
+        console.error('Error fetching notes:', error);
+        res.status(500).json({ message: 'Error fetching notes.', error });
     }
 };
 

@@ -31,7 +31,6 @@ export const updateUserQuestionStatusOrRevision = async (questionId, status, rev
     }
 };
 
-
 // Fetch article by questionId
 export const fetchArticle = async (questionId) => {
     try {
@@ -62,9 +61,24 @@ export const updateUserNotes = async (questionId, notes) => {
     }
 };
 
+// Fetch notes for a specific question
+export const fetchUserNotes = async (questionId) => {
+    try {
+        const response = await userAxiosInstance.get(`/user/questions/${questionId}/notes`);
+        return response.data;  // Returns notes for the specified question
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw error.response.data;
+        } else {
+            throw new Error('An unexpected error occurred while fetching notes.');
+        }
+    }
+};
+
+// Delete notes for a specific question
 export const deleteUserNote = async (questionId) => {
     try {
-        const response = await axios.delete(`/user/questions/${questionId}/notes`);
+        const response = await userAxiosInstance.delete(`/user/questions/${questionId}/notes`);
         return response.data;
     } catch (error) {
         console.error('Error deleting note:', error);
