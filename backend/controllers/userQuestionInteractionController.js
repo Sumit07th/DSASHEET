@@ -128,12 +128,17 @@ exports.fetchUserNotes = async (req, res) => {
 
         console.log('Querying UserQuestionInteraction with:', { userId, questionId });
         const interaction = await UserQuestionInteraction.findOne({ userId, questionId }).lean();
-        console.log('Interaction result:', interaction);
 
-        // Check if the interaction exists
-        if (!interaction || !interaction.notes) {
+        if (!interaction) {
+            console.log('No interaction found for this user and question');
+            return res.status(404).json({ message: 'No interaction found' });
+        }
+
+        if (!interaction.notes) {
+            console.log('No notes field found in the interaction');
             return res.status(404).json({ message: 'Notes not found' });
         }
+
 
         res.status(200).json({ notes: interaction.notes });
     } catch (error) {

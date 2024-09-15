@@ -218,61 +218,82 @@ const UserDashboard = () => {
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    {groupedQuestions[topic][difficulty].map(question => (
-                                                        <tr key={question._id} className="border-b border-gray-200">
-                                                            <td className="py-3 px-4">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={question.userStatus}
-                                                                    onChange={() => handleCheckboxChange(question._id, 'status')}
-                                                                />
-                                                            </td>
-                                                            <td className="py-3 px-4 text-gray-700">{question.title}</td>
-                                                            <td className="py-3 px-4">
-                                                                {question.articleLink ? (
-                                                                    <a href={question.articleLink} target="_blank" rel="noopener noreferrer">
-                                                                        <img src={getPlatformIcon(question.articleLink)} alt="Article Icon" className="w-6 h-6" />
-                                                                    </a>
-                                                                ) : (
-                                                                    <DocumentIcon className="w-6 h-6 text-gray-500" />
-                                                                )}
-                                                            </td>
-                                                            <td className="py-3 px-4">
-                                                                {question.videoLink ? (
-                                                                    <a href={question.videoLink} target="_blank" rel="noopener noreferrer">
-                                                                        <img src={getVideoIcon(question.videoLink)} alt="Video Icon" className="w-6 h-6" />
-                                                                    </a>
-                                                                ) : (
-                                                                    <VideoCameraIcon className="w-6 h-6 text-gray-500" />
-                                                                )}
-                                                            </td>
-                                                            <td className="py-3 px-4">
-                                                                {question.platformLink ? (
-                                                                    <a href={question.platformLink} target="_blank" rel="noopener noreferrer">
-                                                                        <img src={getPlatformIcon(question.platformLink)} alt="Platform Icon" className="w-6 h-6" />
-                                                                    </a>
-                                                                ) : (
-                                                                    <LinkIcon className="w-6 h-6 text-gray-500" />
-                                                                )}
-                                                            </td>
-                                                            <td className="py-3 px-4">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={question.userRevision}
-                                                                    onChange={() => handleCheckboxChange(question._id, 'revision')}
-                                                                />
-                                                            </td>
-                                                            <td className="py-3 px-4">
-                                                                {question.notes ? (
-                                                                    <button onClick={() => handleNoteButtonClick(question._id)} className="text-blue-500 underline">
-                                                                        Edit Notes
-                                                                    </button>
-                                                                ) : (
-                                                                    <button onClick={() => handleNoteButtonClick(question._id)} className="text-blue-500 underline">
-                                                                        Add Notes
-                                                                    </button>
-                                                                )}
-                                                            </td>
+                                                    {groupedQuestions[topic][difficulty]?.map(question => (
+                                                        <tr key={question._id} className="hover:bg-gray-50 transition">
+
+                                                                <td className="py-3 px-4 border-b border-gray-200">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={question.userStatus}
+                                                                        onChange={() => handleCheckboxChange(question._id, 'status')}
+                                                                        className="mr-2"
+                                                                    />
+                                                                </td>
+                                                                <td className="py-3 px-4 border-b border-gray-200">{question.question}</td>
+                                                                <td className="py-3 px-4 border-b border-gray-200">
+                                                                    {question.article?.topic ? (
+                                                                        <button
+                                                                            onClick={() => window.open(`/article/${question._id}`, '_blank')}
+                                                                            className="text-blue-500 hover:text-blue-700 underline flex items-center"
+                                                                        >
+                                                                            <DocumentIcon className="w-4 h-4 mr-1"/>
+
+                                                                        </button>
+                                                                    ) : (
+                                                                        'N/A'
+                                                                    )}
+                                                                </td>
+                                                                <td className="py-3 px-4 border-b border-gray-200">
+                                                                    {question.videoLink ? (
+                                                                        <a href={question.videoLink} target="_blank"
+                                                                           rel="noopener noreferrer">
+                                                                            <img src={getVideoIcon(question.videoLink)}
+                                                                                 alt="Video Icon" className="w-6 h-6"/>
+                                                                        </a>
+                                                                    ) : (
+                                                                        <VideoCameraIcon
+                                                                            className="w-6 h-6 text-gray-500"/>
+                                                                    )}
+                                                                </td>
+                                                                <td className="py-3 px-4 border-b border-gray-200">
+                                                                    {question.platformLink ? (
+                                                                        <a href={question.platformLink} target="_blank"
+                                                                           rel="noopener noreferrer">
+                                                                            <img
+                                                                                src={getPlatformIcon(question.platformLink)}
+                                                                                alt="Platform Icon"
+                                                                                className="w-6 h-6"/>
+                                                                        </a>
+                                                                    ) : (
+                                                                        <LinkIcon className="w-6 h-6 text-gray-500"/>
+                                                                    )}
+                                                                </td>
+                                                                <td className="py-3 px-4 border-b border-gray-200">
+                                                                    <StarIcon
+                                                                        className={`w-5 h-5 ${question.userRevision ? 'text-yellow-400' : 'text-gray-300'}`}
+                                                                        onClick={() => handleCheckboxChange(question._id, 'revision')}
+
+                                                                    />
+                                                                </td>
+                                                                <td className="py-3 px-4 border-b border-gray-200">
+                                                                    {question.notes ? (
+                                                                        <button
+                                                                            onClick={() => handleNoteButtonClick(question._id)}
+                                                                            className="text-blue-500 underline">
+                                                                            <PencilIcon className="w-4 h-4 mr-1"/>
+
+                                                                        </button>
+                                                                    ) : (
+                                                                        <button
+                                                                            onClick={() => handleNoteButtonClick(question._id)}
+                                                                            className="text-blue-500 underline">
+                                                                            <PlusIcon className="w-4 h-4 mr-1"/>
+                                                                            Add Notes
+                                                                        </button>
+                                                                    )}
+                                                                </td>
+
+
                                                         </tr>
                                                     ))}
                                                     </tbody>

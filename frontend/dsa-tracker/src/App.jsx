@@ -24,7 +24,7 @@ function App() {
               <Route path="/questionsList" element={<QuestionList />} />
               <Route path="/createQuestion" element={<QuestionForm />} />
               <Route path="/questions/update/:id" element={<UpdateQuestion />} />
-              <Route path="/question" element={userDashboard}/>
+              <Route path="/question" element={<userDashboard />}/>
               <Route path="/article/:questionId" element={<ArticlePage />} />
 
 
