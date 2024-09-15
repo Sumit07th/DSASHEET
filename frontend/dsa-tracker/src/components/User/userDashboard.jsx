@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchUserQuestions, updateUserQuestionStatusOrRevision, updateUserNotes, deleteUserNote, fetchUserNotes } from '../../api/userApi';
 import QuestionTable from './QuestionTable';
 import NoteModal from './NoteModal';
+import Navbar from '../Navbar';
 //import axiosInstance from '../../utils/axiosInstance'; // Import your axiosInstance
 
 const UserDashboard = () => {
@@ -131,6 +132,8 @@ const UserDashboard = () => {
 
     return (
         <div className="p-6 space-y-6">
+            <Navbar />
+            <br/>
             <QuestionTable
                 questions={questions}
                 handleCheckboxChange={handleCheckboxChange}

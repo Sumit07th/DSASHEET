@@ -4,6 +4,7 @@ import { fetchArticle } from '../../api/userApi'; // You need to create this API
 import { ChevronDownIcon, ChevronUpIcon, ClipboardIcon } from '@heroicons/react/24/solid';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import Navbar from "../Navbar.jsx";
 
 const ArticlePage = () => {
     const { questionId } = useParams();
@@ -41,6 +42,7 @@ const ArticlePage = () => {
 
     return (
         <div className="p-4 bg-gray-100 min-h-screen">
+            <Navbar />
             <h1 className="text-3xl font-bold mb-6 text-gray-800">{article.topic}</h1>
             <div className="bg-white p-6 rounded-lg shadow-md">
                 <h2 className="text-xl font-semibold mb-4">Problem Statement:</h2>
