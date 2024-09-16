@@ -131,27 +131,49 @@ const UserDashboard = () => {
     };
 
     return (
-        <div className="p-6 space-y-6">
+        <div className="min-h-screen bg-gray-100">
+            {/* Navbar */}
             <Navbar />
-            <br/>
-            <QuestionTable
-                questions={questions}
-                handleCheckboxChange={handleCheckboxChange}
-                handleNoteButtonClick={handleNoteButtonClick}
-                expandedTopic={expandedTopic}
-                expandedDifficulty={expandedDifficulty}
-                toggleDifficulty={toggleDifficulty}
-                modalVisible={modalVisible}
-            />
-            <NoteModal
-                modalVisible={modalVisible}
-                noteText={noteText}
-                setNoteText={setNoteText}
-                handleNoteSave={handleNoteSave}
-                handleNoteDelete={handleNoteDelete}
-                setModalVisible={setModalVisible}
-                editingNote={editingNote}
-            />
+
+            {/* Header Section */}
+            <div className="text-center py-8">
+                <h1 className="text-4xl font-bold text-gray-800">Admin Question Dashboard</h1>
+                <p className="text-gray-500 mt-2">Manage and review questions with ease</p>
+            </div>
+
+            {/* Question Table and Modal Section */}
+            <div className="container mx-auto px-4">
+
+                {/* Question Table */}
+                <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h2 className="text-2xl font-semibold text-gray-700 mb-4">Question List</h2>
+                    <QuestionTable
+                        questions={questions}
+                        handleCheckboxChange={handleCheckboxChange}
+                        handleNoteButtonClick={handleNoteButtonClick}
+                        expandedTopic={expandedTopic}
+                        expandedDifficulty={expandedDifficulty}
+                        toggleDifficulty={toggleDifficulty}
+                        modalVisible={modalVisible}
+                    />
+                </div>
+
+                {/* Note Modal */}
+                {modalVisible && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <NoteModal
+                            modalVisible={modalVisible}
+                            noteText={noteText}
+                            setNoteText={setNoteText}
+                            handleNoteSave={handleNoteSave}
+                            handleNoteDelete={handleNoteDelete}
+                            setModalVisible={setModalVisible}
+                            editingNote={editingNote}
+                        />
+                    </div>
+                )}
+
+            </div>
         </div>
     );
 };

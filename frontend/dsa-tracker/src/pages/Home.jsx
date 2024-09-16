@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/atoms/authAtoms';
 import { FaChevronLeft, FaChevronRight, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
 
+
 const Home = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useRecoilValue(authState);
@@ -114,18 +115,18 @@ const Home = () => {
                     </p>
                     <div className="flex justify-center space-x-6">
                         <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="/path-to-icon1.png" alt="Quality Questions" className="w-12 h-12 mx-auto mb-4"/>
+                            <img src="../assets/icons/icon-1.jpeg" alt="Quality Questions" className="w-12 h-12 mx-auto mb-4"/>
                             <h3 className="font-bold text-xl mb-2">Quality Questions</h3>
                             <p className="text-gray-600">Carefully curated questions to enhance your problem-solving
                                 skills.</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="/path-to-icon2.png" alt="Intuitive UI" className="w-12 h-12 mx-auto mb-4"/>
+                            <img src="../assets/icons/icon-2.jpeg" alt="Intuitive UI" className="w-12 h-12 mx-auto mb-4"/>
                             <h3 className="font-bold text-xl mb-2">Intuitive UI</h3>
                             <p className="text-gray-600">Designed with simplicity in mind to focus on your learning.</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="/path-to-icon3.png" alt="Progress Tracking" className="w-12 h-12 mx-auto mb-4"/>
+                            <img src="../assets/icons/icon-3.jpeg" alt="Progress Tracking" className="w-12 h-12 mx-auto mb-4"/>
                             <h3 className="font-bold text-xl mb-2">Progress Tracking</h3>
                             <p className="text-gray-600">Easily monitor your progress and stay motivated.</p>
                         </div>
