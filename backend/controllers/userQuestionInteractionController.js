@@ -62,18 +62,24 @@ exports.getUserQuestions = async (req, res) => {
     }
 };
 
-// Get all questions and user's status, revision, and notes
 exports.getSheetsQuestions = async (req, res) => {
     try {
         const userId = req.user._id;
+        const { sheetName } = req.params;
+        console.log(sheetName)
 
-        const {sheetName}=req.body();
+        // Fetch all questions for the given sheet
+        const questions = await Question.find({ sheet: sheetName });
+        console.log(questions)
 
-        // Fetch all questions
-        const questions = await Question.find({sheet:sheetName});
+        // Extract the question IDs from the fetched questions
+        const questionIds = questions.map(q => q._id);
 
-        // Fetch the user's interactions (status, revision, and notes)
-        const interactions = await UserQuestionInteraction.find({ userId }).lean();
+        // Fetch the user's interactions for the specific questions
+        const interactions = await UserQuestionInteraction.find({
+            userId,
+            questionId: { $in: questionIds }  // Filter by question IDs in the current sheet
+        }).lean();
 
         // Create a map of interactions for easier lookup
         const interactionMap = interactions.reduce((map, interaction) => {
@@ -88,16 +94,18 @@ exports.getSheetsQuestions = async (req, res) => {
                 ...question._doc,  // Use Mongoose document data
                 userStatus: interaction ? interaction.status : false,
                 userRevision: interaction ? interaction.revision : false,
-                userNotes: interaction ? interaction.notes : "" // Attach notes field
+                userNotes: interaction ? interaction.notes : ""  // Attach notes field
             };
         });
 
+        //console.log(questionsWithUserStatus);
         res.status(200).json(questionsWithUserStatus);
     } catch (error) {
         console.error('Error fetching questions:', error);
         res.status(500).json({ message: 'Error fetching questions.', error });
     }
 };
+
 
 // Fetch article details by questionId
 exports.fetchArticleByQuestionId = async (req, res) => {

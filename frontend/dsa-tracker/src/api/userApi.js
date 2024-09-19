@@ -17,7 +17,7 @@ export const fetchUserQuestions = async () => {
 // Fetch all sheet questions with user's status and revision
 export const fetchSheetQuestions = async (sheetName) => {
     try {
-        const response = await userAxiosInstance.get('/user/sheets/questions',{sheetName});
+        const response = await userAxiosInstance.get(`/user/sheets/questions/${sheetName}`);
         return response.data;  // Returns questions with status and revision
     } catch (error) {
         if (error.response && error.response.data) {

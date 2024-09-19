@@ -24,7 +24,7 @@ router.get('/questions/:questionId/article',authenticateToken, fetchArticleByQue
 
 router.delete('/questions/:questionId/notes',authenticateToken, deleteNote);
 
-router.get('/sheets/questions',authenticateToken,getSheetsQuestions);
+router.get('/sheets/questions/:sheetName',authenticateToken,getSheetsQuestions);
 
 
 
