@@ -4,8 +4,7 @@ const {
     getUserQuestions,
     fetchArticleByQuestionId,
     updateNotes,
-    deleteNote,
-    fetchUserNotes
+    deleteNote
 } = require('../controllers/userQuestionInteractionController');
 const router = express.Router();
 const { authenticateToken } = require('../middleware/authMiddleware'); // Assuming you have authentication middleware
@@ -24,6 +23,6 @@ router.get('/questions/:questionId/article',authenticateToken, fetchArticleByQue
 
 router.delete('/questions/:questionId/notes',authenticateToken, deleteNote);
 
-router.get('/questions/:questionId/notes',authenticateToken,fetchUserNotes)
+
 
 module.exports = router;
