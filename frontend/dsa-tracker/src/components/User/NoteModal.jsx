@@ -1,5 +1,4 @@
 import React from 'react';
-import { PencilIcon, TrashIcon, PlusIcon } from '@heroicons/react/24/solid';
 
 const NoteModal = ({ modalVisible, noteText, setNoteText, handleNoteSave, handleNoteDelete, setModalVisible, editingNote }) => {
     return (

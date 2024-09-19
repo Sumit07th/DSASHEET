@@ -105,7 +105,7 @@ const QuestionTable = ({ questions, handleCheckboxChange, handleNoteButtonClick,
                                                             />
                                                         </td>
                                                         <td className="py-3 px-4 border-b border-gray-200">
-                                                            {question.notes ? (
+                                                            {question.userNotes ? (
                                                                 <button
                                                                     onClick={() => handleNoteButtonClick(question._id)}
                                                                     className="text-blue-500 underline"
