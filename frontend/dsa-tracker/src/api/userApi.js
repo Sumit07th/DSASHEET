@@ -14,6 +14,20 @@ export const fetchUserQuestions = async () => {
     }
 };
 
+// Fetch all sheet questions with user's status and revision
+export const fetchSheetQuestions = async (sheetName) => {
+    try {
+        const response = await userAxiosInstance.get('/user/sheets/questions',{sheetName});
+        return response.data;  // Returns questions with status and revision
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw error.response.data;
+        } else {
+            throw new Error('An unexpected error occurred while fetching user questions.');
+        }
+    }
+};
+
 // Update status or revision for a specific question
 export const updateUserQuestionStatusOrRevision = async (questionId, status, revision) => {
     try {

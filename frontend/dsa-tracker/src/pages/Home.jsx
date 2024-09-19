@@ -50,13 +50,39 @@ const Home = () => {
         setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length);
     };
 
-    const handleButtonClick = () => {
+    const handleButtonClick = (name) => {
         if (isLoggedIn) {
-            navigate('/user-dashboard');
+            navigate(`/${name}`);
         } else {
             navigate('/login');
         }
     };
+
+    const cardData = [
+        {
+            name: 'BASIC',
+            description: 'Foundational concepts to kickstart your DSA journey.'
+        },
+        {
+            name: 'A2Z',
+            description: 'Comprehensive coverage of all essential DSA topics.'
+        },
+        {
+            name: 'TCS',
+            description: 'Tailored for TCS interview preparation.'
+        },
+        {
+            name: 'SDE',
+            description: 'Advanced problems for aspiring Software Development Engineers.'
+        },
+        {
+            name: 'CP',
+            description: 'Strategies to excel in competitive programming contests.'
+        }
+    ];
+
+
+
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -80,25 +106,21 @@ const Home = () => {
             {/* Cards Section */}
             <section className="py-16 bg-gray-100">
                 <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {Array(6)
-                        .fill(0)
-                        .map((_, index) => (
-                            <div
-                                key={index}
-                                className="bg-white p-8 shadow-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                    {cardData.map((card, index) => (
+                        <div
+                            key={index}
+                            className="bg-white p-8 shadow-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                        >
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4">{card.name}</h2>
+                            <p className="text-gray-600 mb-6">{card.description}</p>
+                            <button
+                                onClick={() =>handleButtonClick(card.name)}
+                                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-md hover:from-purple-600 hover:to-blue-500 transition-all duration-300"
                             >
-                                <h2 className="text-2xl font-bold text-gray-800 mb-4">DSA Sheet {index + 1}</h2>
-                                <p className="text-gray-600 mb-6">
-                                    The most comprehensive DSA sheet to master algorithms and data structures.
-                                </p>
-                                <button
-                                    onClick={handleButtonClick}
-                                    className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-md hover:from-purple-600 hover:to-blue-500 transition-all duration-300"
-                                >
-                                    Start Practicing
-                                </button>
-                            </div>
-                        ))}
+                                Start Practicing
+                            </button>
+                        </div>
+                    ))}
                 </div>
             </section>
 
@@ -115,18 +137,21 @@ const Home = () => {
                     </p>
                     <div className="flex justify-center space-x-6">
                         <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="../assets/icons/icon-1.jpeg" alt="Quality Questions" className="w-12 h-12 mx-auto mb-4"/>
+                            <img src="../assets/icons/icon-1.jpeg" alt="Quality Questions"
+                                 className="w-12 h-12 mx-auto mb-4"/>
                             <h3 className="font-bold text-xl mb-2">Quality Questions</h3>
                             <p className="text-gray-600">Carefully curated questions to enhance your problem-solving
                                 skills.</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="../assets/icons/icon-2.jpeg" alt="Intuitive UI" className="w-12 h-12 mx-auto mb-4"/>
+                            <img src="../assets/icons/icon-2.jpeg" alt="Intuitive UI"
+                                 className="w-12 h-12 mx-auto mb-4"/>
                             <h3 className="font-bold text-xl mb-2">Intuitive UI</h3>
                             <p className="text-gray-600">Designed with simplicity in mind to focus on your learning.</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="../assets/icons/icon-3.jpeg" alt="Progress Tracking" className="w-12 h-12 mx-auto mb-4"/>
+                            <img src="../assets/icons/icon-3.jpeg" alt="Progress Tracking"
+                                 className="w-12 h-12 mx-auto mb-4"/>
                             <h3 className="font-bold text-xl mb-2">Progress Tracking</h3>
                             <p className="text-gray-600">Easily monitor your progress and stay motivated.</p>
                         </div>

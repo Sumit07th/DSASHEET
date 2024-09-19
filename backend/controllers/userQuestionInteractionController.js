@@ -62,6 +62,43 @@ exports.getUserQuestions = async (req, res) => {
     }
 };
 
+// Get all questions and user's status, revision, and notes
+exports.getSheetsQuestions = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const {sheetName}=req.body();
+
+        // Fetch all questions
+        const questions = await Question.find({sheet:sheetName});
+
+        // Fetch the user's interactions (status, revision, and notes)
+        const interactions = await UserQuestionInteraction.find({ userId }).lean();
+
+        // Create a map of interactions for easier lookup
+        const interactionMap = interactions.reduce((map, interaction) => {
+            map[interaction.questionId] = interaction;
+            return map;
+        }, {});
+
+        // Attach each question with user's personalized status, revision, and notes
+        const questionsWithUserStatus = questions.map(question => {
+            const interaction = interactionMap[question._id.toString()];
+            return {
+                ...question._doc,  // Use Mongoose document data
+                userStatus: interaction ? interaction.status : false,
+                userRevision: interaction ? interaction.revision : false,
+                userNotes: interaction ? interaction.notes : "" // Attach notes field
+            };
+        });
+
+        res.status(200).json(questionsWithUserStatus);
+    } catch (error) {
+        console.error('Error fetching questions:', error);
+        res.status(500).json({ message: 'Error fetching questions.', error });
+    }
+};
+
 // Fetch article details by questionId
 exports.fetchArticleByQuestionId = async (req, res) => {
     try {

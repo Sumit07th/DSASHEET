@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserQuestions, updateUserQuestionStatusOrRevision, updateUserNotes, deleteUserNote } from '../../api/userApi';
+import { fetchUserQuestions, updateUserQuestionStatusOrRevision, updateUserNotes, deleteUserNote,fetchSheetQuestions } from '../../api/userApi';
 import QuestionTable from './QuestionTable';
 import NoteModal from './NoteModal';
 import Navbar from '../Navbar';
+import {useParams} from "react-router-dom";
 //import axiosInstance from '../../utils/axiosInstance'; // Import your axiosInstance
 
 const UserDashboard = () => {
@@ -13,11 +14,11 @@ const UserDashboard = () => {
     const [noteText, setNoteText] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedQuestionId, setSelectedQuestionId] = useState(null);
-
+    const {sheet} = useParams();
     useEffect(() => {
         const loadQuestions = async () => {
             try {
-                const fetchedQuestions = await fetchUserQuestions();
+                const fetchedQuestions = await fetchSheetQuestions(sheet);
 
 
                 setQuestions(fetchedQuestions);

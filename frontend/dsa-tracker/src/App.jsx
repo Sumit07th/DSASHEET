@@ -31,7 +31,7 @@ function App() {
 
 
 
-              <Route path="/user-dashboard" element={<StudentDashboard />} />
+              <Route path="/:sheet" element={<StudentDashboard />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
           </Routes>
