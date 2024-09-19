@@ -19,7 +19,7 @@ router.put('/questions/:questionId/notes', authenticateToken, updateNotes);
 // Route to get all questions along with user's status, revision, and notes
 router.get('/questions', authenticateToken, getUserQuestions);
 
-// Route to get article details by questionId
+// Route to get article details by questionId..
 router.get('/questions/:questionId/article',authenticateToken, fetchArticleByQuestionId);
 
 router.delete('/questions/:questionId/notes',authenticateToken, deleteNote);
