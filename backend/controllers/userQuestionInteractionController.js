@@ -113,39 +113,7 @@ exports.updateNotes = async (req, res) => {
     }
 };
 
-exports.fetchUserNotes = async (req, res) => {
-    try {
-        const userId = req.user._id;
-        const { questionId } = req.params;
 
-        console.log('Fetching notes for user:', userId);
-        console.log('For question ID:', questionId);
-
-        // Validate input
-        if (!questionId) {
-            return res.status(400).json({ message: 'Question ID is required' });
-        }
-
-        console.log('Querying UserQuestionInteraction with:', { userId, questionId });
-        const interaction = await UserQuestionInteraction.findOne({ userId, questionId }).lean();
-
-        if (!interaction) {
-            console.log('No interaction found for this user and question');
-            return res.status(404).json({ message: 'No interaction found' });
-        }
-
-        if (!interaction.notes) {
-            console.log('No notes field found in the interaction');
-            return res.status(404).json({ message: 'Notes not found' });
-        }
-
-
-        res.status(200).json({ notes: interaction.notes });
-    } catch (error) {
-        console.error('Error fetching notes:', error);
-        res.status(500).json({ message: 'Error fetching notes.', error });
-    }
-};
 
 // Delete notes for a specific question for a user
 exports.deleteNote = async (req, res) => {

@@ -18,7 +18,19 @@ const UserDashboard = () => {
         const loadQuestions = async () => {
             try {
                 const fetchedQuestions = await fetchUserQuestions();
-                setQuestions(fetchedQuestions);
+
+                const questionsWithNotes = await Promise.all(
+                    fetchedQuestions.map(async (question) => {
+                        try {
+                            const notes = await fetchUserNotes(question._id);
+                            return { ...question, notes: notes || '' }; // Merge notes with question
+                        } catch (error) {
+                            console.error(`Error fetching notes for question ${question._id}:`, error.message || error);
+                            return { ...question, notes: '' }; // Fallback to empty if notes fetch fails
+                        }
+                    })
+                );
+                setQuestions(questionsWithNotes);
             } catch (error) {
                 console.error('Error fetching questions:', error.message || error);
             }
@@ -49,8 +61,19 @@ const UserDashboard = () => {
     const handleNoteButtonClick = (questionId) => {
         const question = questions.find(q => q._id === questionId);
 
-        // Set noteText to userNotes
-        let noteText = question.userNotes || '';
+        // Check if notes is already an object or a JSON string
+        let noteText = '';
+        if (typeof question.notes === 'string') {
+            try {
+                const parsedNotes = JSON.parse(question.notes);
+                noteText = parsedNotes.notes || ''; // Adjust this based on your actual structure
+            } catch {
+                noteText = question.notes; // Fallback if JSON parsing fails
+            }
+        } else if (typeof question.notes === 'object') {
+            noteText = question.notes.notes || ''; // Adjust this based on your actual structure
+        }
+
         setEditingNote(noteText);
         setNoteText(noteText);
         setSelectedQuestionId(questionId);
@@ -60,16 +83,15 @@ const UserDashboard = () => {
 
 
 
-
     const handleNoteSave = async () => {
         try {
             if (selectedQuestionId) {
-                // Save the updated note to userNotes
+                // Directly use noteText without JSON.stringify
                 await updateUserNotes(selectedQuestionId, noteText);
                 setQuestions(prevQuestions =>
                     prevQuestions.map(q =>
                         q._id === selectedQuestionId
-                            ? { ...q, userNotes: noteText } // Update userNotes
+                            ? { ...q, notes: noteText }
                             : q
                     )
                 );
@@ -79,7 +101,6 @@ const UserDashboard = () => {
             console.error('Error saving note:', error);
         }
     };
-
 
 
     const handleNoteDelete = async () => {

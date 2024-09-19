@@ -61,19 +61,7 @@ export const updateUserNotes = async (questionId, notes) => {
     }
 };
 
-// Fetch notes for a specific question
-export const fetchUserNotes = async (questionId) => {
-    try {
-        const response = await userAxiosInstance.get(`/user/questions/${questionId}/notes`);
-        return response.data;  // Returns notes for the specified question
-    } catch (error) {
-        if (error.response && error.response.data) {
-            throw error.response.data;
-        } else {
-            throw new Error('An unexpected error occurred while fetching notes.');
-        }
-    }
-};
+
 
 // Delete notes for a specific question
 export const deleteUserNote = async (questionId) => {
