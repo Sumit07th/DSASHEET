@@ -18,6 +18,7 @@ const UserDashboard = () => {
         const loadQuestions = async () => {
             try {
                 const fetchedQuestions = await fetchUserQuestions();
+
                 const questionsWithNotes = await Promise.all(
                     fetchedQuestions.map(async (question) => {
                         try {

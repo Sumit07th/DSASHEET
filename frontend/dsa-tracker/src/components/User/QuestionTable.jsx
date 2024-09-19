@@ -111,6 +111,7 @@ const QuestionTable = ({ questions, handleCheckboxChange, handleNoteButtonClick,
                                                                     className="text-blue-500 underline"
                                                                 >
                                                                     <PencilIcon className="w-4 h-4 mr-1" />
+                                                                    Edit Notes
                                                                 </button>
                                                             ) : (
                                                                 <button

@@ -62,6 +62,10 @@ const questionSchema = new mongoose.Schema({
         type: String, // Easy, Medium, or Hard
         enum: ['Easy', 'Medium', 'Hard'],
         required: true
+    },
+    sheet: {
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 

@@ -17,6 +17,7 @@ const UpdateQuestion = () => {
         videoLink: '',
         platformLink: '',
         difficulty: 'Easy',
+        sheet:'',
     });
     const [newSolution, setNewSolution] = useState({ approach: '', code: '' });
     const [editingSolutionIndex, setEditingSolutionIndex] = useState(null);
@@ -300,6 +301,18 @@ const UpdateQuestion = () => {
                         <option value="Hard">Hard</option>
                     </select>
                 </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Sheet</label>
+                    <input
+                        type="text"
+                        name="sheet"
+                        value={formData.sheet || ''}
+                        onChange={handleChange}
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded"
+                    />
+                </div>
+
 
                 <button
                     type="submit"

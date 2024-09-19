@@ -10,6 +10,7 @@ import QuestionList from "./components/Admin/QuestionList.jsx";
 import UpdateQuestion from './components/Admin/UpdateQuestion.jsx';
 import userDashboard from "./components/User/userDashboard.jsx";
 import ArticlePage from "./components/User/ArticlePage.jsx";
+import Dashboard from "./components/User/dashboard.jsx";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
               <Route path="/questions/update/:id" element={<UpdateQuestion />} />
               <Route path="/question" element={<userDashboard />}/>
               <Route path="/article/:questionId" element={<ArticlePage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
 
 
 

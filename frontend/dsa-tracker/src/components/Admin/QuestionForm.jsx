@@ -16,6 +16,7 @@ const QuestionForm = () => {
         videoLink: '',
         platformLink: '',
         difficulty: 'Easy',
+        sheet:'',
     });
 
     const handleChange = (e) => {
@@ -237,6 +238,16 @@ const QuestionForm = () => {
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </select>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Sheet</label>
+                    <input
+                        name="sheet"
+                        value={formData.sheet}
+                        onChange={handleChange}
+                        placeholder="Sheet"
+                        className="mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full"
+                    />
                 </div>
                 <button
                     type="submit"

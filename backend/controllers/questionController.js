@@ -3,7 +3,7 @@ const Question = require('../models/questionModel');
 // Create a new question (Admin Only)
 exports.createQuestion = async (req, res) => {
     try {
-        const { topic, question, article, videoLink, platformLink, difficulty } = req.body;
+        const { topic, question, article, videoLink, platformLink, difficulty,sheet } = req.body;
 
         // Create a new question instance
         const newQuestion = new Question({
@@ -12,7 +12,8 @@ exports.createQuestion = async (req, res) => {
             article, // This should be an object matching the articleSchema
             videoLink,
             platformLink,
-            difficulty
+            difficulty,
+            sheet
         });
 
         // Save the question to the database
