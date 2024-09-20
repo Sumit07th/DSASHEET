@@ -49,7 +49,7 @@ const Login = () => {
             if (userRole === 'admin') {
                 navigate('/admin-dashboard'); // Redirect to admin dashboard
             } else {
-                navigate('/user-dashboard'); // Redirect to user dashboard
+                navigate('/'); // Redirect to user dashboard
             }
         } catch (err) {
             console.error('Login error:', err.response?.data || err.message);
@@ -73,7 +73,9 @@ const Login = () => {
                     <FaTimes size={24} />
                 </button>
                 <h2 className="text-3xl font-extrabold mb-6 text-center text-blue-600">Login</h2>
+
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
                 <form onSubmit={handleLogin}>
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-medium mb-2">Email</label>
@@ -85,6 +87,7 @@ const Login = () => {
                             required
                         />
                     </div>
+
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-medium mb-2">Password</label>
                         <input
@@ -95,6 +98,14 @@ const Login = () => {
                             required
                         />
                     </div>
+
+                    {/* Add Forgot Password Link */}
+                    <div className="mb-6 text-right">
+                        <Link to="/forgetpassword" className="text-blue-600 hover:underline">
+                            Forgot Password?
+                        </Link>
+                    </div>
+
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-200"
@@ -102,9 +113,13 @@ const Login = () => {
                         Login
                     </button>
                 </form>
+
                 <div className="mt-4 text-center">
                     <p className="text-gray-600 text-sm">
-                        Don't have an account? <Link to="/signup" className="text-blue-600 hover:underline">Sign Up</Link>
+                        Don't have an account?{' '}
+                        <Link to="/signup" className="text-blue-600 hover:underline">
+                            Sign Up
+                        </Link>
                     </p>
                 </div>
             </div>

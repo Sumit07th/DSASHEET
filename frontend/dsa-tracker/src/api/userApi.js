@@ -87,3 +87,40 @@ export const deleteUserNote = async (questionId) => {
         throw error; // Re-throw the error to be handled by the caller
     }
 };
+
+// Forget Password API call
+export const forgetPassword = async (email) => {
+    try {
+        const response = await userAxiosInstance.post('/auth/reset', { email });
+        return response.data;
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        throw error;
+    }
+};
+
+// Reset password
+export const resetPassword = async (resetToken, password) => {
+    try {
+        // Make the API request to reset the password
+        const response = await userAxiosInstance.post(`/auth/reset/${resetToken}`, { password });
+
+        return response.data;  // Return the response data
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        throw error;  // Re-throw the error so it can be handled by the caller
+    }
+};
+// changed password
+export const changedPassword = async (oldPassword,newPassword) => {
+    try {
+        // Make the API request to reset the password
+        const response = await userAxiosInstance.post('/auth/changed-password', { oldPassword, newPassword });
+
+        return response.data;  // Return the response data
+    } catch (error) {
+        console.error('Error changing password:', error);
+        throw error;  // Re-throw the error so it can be handled by the caller
+    }
+};
+

@@ -95,12 +95,7 @@ const Home = () => {
                     <span className="text-yellow-300">MASTER</span> DATA STRUCTURES & ALGORITHMS:
                     <span className="block md:inline text-pink-400"> BUILD YOUR FUTURE</span>
                 </h1>
-                <button
-                    onClick={handleButtonClick}
-                    className="bg-white text-purple-700 font-bold px-8 py-3 rounded-full shadow-lg hover:bg-purple-700 hover:text-white transition-transform transform hover:scale-105 duration-300 relative"
-                >
-                    Try it Free
-                </button>
+
             </section>
 
             {/* Cards Section */}

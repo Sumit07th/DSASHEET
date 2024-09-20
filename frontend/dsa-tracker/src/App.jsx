@@ -11,6 +11,12 @@ import UpdateQuestion from './components/Admin/UpdateQuestion.jsx';
 import userDashboard from "./components/User/userDashboard.jsx";
 import ArticlePage from "./components/User/ArticlePage.jsx";
 import Dashboard from "./components/User/dashboard.jsx";
+import ForgetPassword from "./pages/ForgetPassword.jsx";
+import Notify from "./pages/notify.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+import ChangedPassword from "./pages/ChangedPassword.jsx";
+
+
 
 
 function App() {
@@ -28,6 +34,10 @@ function App() {
               <Route path="/question" element={<userDashboard />}/>
               <Route path="/article/:questionId" element={<ArticlePage />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/forgetpassword" element={<ForgetPassword />}  />
+              <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+              <Route path="/changed-password" element={<ChangedPassword />}/>
+              <Route path="/notify" element={<Notify/>}/>
 
 
 
