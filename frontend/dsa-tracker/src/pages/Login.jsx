@@ -42,6 +42,7 @@ const Login = () => {
                 isLoggedIn: true,
                 user: {
                     email: response.data.email,
+                    name: response.data.name,
                     role: userRole // Use the role from the response
                 },
             });

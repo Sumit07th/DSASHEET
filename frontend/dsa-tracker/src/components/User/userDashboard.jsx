@@ -4,6 +4,8 @@ import QuestionTable from './QuestionTable';
 import NoteModal from './NoteModal';
 import Navbar from '../Navbar';
 import {useParams} from "react-router-dom";
+import {useRecoilValue} from "recoil";
+import {themeState} from "../../recoil/atoms/themeAtom.js";
 //import axiosInstance from '../../utils/axiosInstance'; // Import your axiosInstance
 
 const UserDashboard = () => {
@@ -29,6 +31,17 @@ const UserDashboard = () => {
 
         loadQuestions();
     }, []);
+
+    const theme = useRecoilValue(themeState);
+
+    // Apply dark mode class to the <html> element based on the theme state
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [theme]);
 
     const handleCheckboxChange = async (questionId, type) => {
         const question = questions.find(q => q._id === questionId);
@@ -112,22 +125,21 @@ const UserDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 dark:bg-black dark:text-white">
             {/* Navbar */}
             <Navbar />
 
             {/* Header Section */}
-            <div className="text-center py-8">
-                <h1 className="text-4xl font-bold text-gray-800">Admin Question Dashboard</h1>
-                <p className="text-gray-500 mt-2">Manage and review questions with ease</p>
+            <div className="text-center py-8 dark:bg-black dark:text-white">
+
             </div>
 
             {/* Question Table and Modal Section */}
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto px-4 dark:bg-black dark:text-white">
 
                 {/* Question Table */}
-                <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-                    <h2 className="text-2xl font-semibold text-gray-700 mb-4">Question List</h2>
+                <div className="bg-white rounded-lg shadow-lg p-6 mb-6 dark:bg-black dark:text-white">
+                    <h2 className="text-2xl font-semibold text-gray-700 mb-4 dark:bg-black dark:text-white">Question List</h2>
                     <QuestionTable
                         questions={questions}
                         handleCheckboxChange={handleCheckboxChange}

@@ -1,14 +1,29 @@
 import Navbar from '../components/Navbar';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/atoms/authAtoms';
+import { themeState } from '../recoil/atoms/themeAtom';
 import { FaChevronLeft, FaChevronRight, FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
+import Icon1 from '../assets/icons/icon-1.jpeg';
+import Icon2 from '../assets/icons/icon-2.jpeg';
+import Icon3 from '../assets/icons/icon-3.jpeg';
+
 
 
 const Home = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useRecoilValue(authState);
+    const theme = useRecoilValue(themeState);
+
+    // Apply dark mode class to the <html> element based on the theme state
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [theme]);
 
     // Dummy data for success stories and FAQs
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -85,12 +100,12 @@ const Home = () => {
 
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 hover:bg-black">
             <Navbar/>
 
             <section className="hero-section bg-gradient-to-r from-blue-500 to-purple-600 py-20 text-center relative">
                 <div
-                    className="absolute inset-0 bg-gradient-to-br from-transparent to-white opacity-10 animate-pulse"></div>
+                    className="absolute inset-0 bg-gradient-to-br from-transparent to-white opacity-10 animate-pulse dark:bg-black dark:text-white"></div>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-8 relative">
                     <span className="text-yellow-300">MASTER</span> DATA STRUCTURES & ALGORITHMS:
                     <span className="block md:inline text-pink-400"> BUILD YOUR FUTURE</span>
@@ -99,18 +114,18 @@ const Home = () => {
             </section>
 
             {/* Cards Section */}
-            <section className="py-16 bg-gray-100">
-                <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <section className="py-16 bg-gray-100 dark:bg-black dark:text-white">
+                <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 dark:bg-black dark:text-white">
                     {cardData.map((card, index) => (
                         <div
                             key={index}
-                            className="bg-white p-8 shadow-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                            className="border-4 bg-white p-8 shadow-lg rounded-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl dark:bg-black dark:text-white dark:border-white"
                         >
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4">{card.name}</h2>
-                            <p className="text-gray-600 mb-6">{card.description}</p>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 dark:bg-black dark:text-white">{card.name}</h2>
+                            <p className="text-gray-600 mb-6 dark:bg-black dark:text-white">{card.description}</p>
                             <button
-                                onClick={() =>handleButtonClick(card.name)}
-                                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-md hover:from-purple-600 hover:to-blue-500 transition-all duration-300"
+                                onClick={() => handleButtonClick(card.name)}
+                                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-md hover:from-purple-600 hover:to-blue-500 transition-all duration-300 dark:bg-black dark:text-white"
                             >
                                 Start Practicing
                             </button>
@@ -120,63 +135,63 @@ const Home = () => {
             </section>
 
             {/* Why Choose Us Section */}
-            <section className="py-16 bg-gray-100">
-                <div className="container mx-auto text-center">
-                    <h2 className="text-4xl font-extrabold text-gray-900 mb-8">Why Choose Us?</h2>
-                    <div className="border-t-4 border-blue-500 w-24 mx-auto mb-8"></div>
-                    <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-10">
+            <section className="py-16 bg-gray-100 dark:bg-black dark:text-white">
+                <div className="container mx-auto text-center dark:bg-black dark:text-white">
+                    <h2 className="text-4xl font-extrabold text-gray-900 mb-8 dark:bg-black dark:text-white">Why Choose Us?</h2>
+                    <div className="border-t-4 border-blue-500 w-24 mx-auto mb-8 dark:bg-black dark:text-white"></div>
+                    <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-10 dark:bg-black dark:text-white">
                         Our platform is designed to make your DSA preparation smooth, efficient, and effective. We offer
                         high-quality questions, an intuitive UI, progress tracking, and a strong community that helps
                         you throughout your learning journey. Whether you're a beginner or an advanced coder, we've got
                         you covered.
                     </p>
-                    <div className="flex justify-center space-x-6">
-                        <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="../assets/icons/icon-1.jpeg" alt="Quality Questions"
-                                 className="w-12 h-12 mx-auto mb-4"/>
-                            <h3 className="font-bold text-xl mb-2">Quality Questions</h3>
-                            <p className="text-gray-600">Carefully curated questions to enhance your problem-solving
+                    <div className="flex justify-center space-x-6 dark:bg-black dark:text-white">
+                        <div className="border-4 bg-white p-6 rounded-lg  max-w-xs dark:bg-black dark:text-white dark:border-white">
+                            <img src={Icon1} alt="Quality Questions"
+                                 className="w-12 h-12 mx-auto mb-4 dark:bg-black dark:text-white"/>
+                            <h3 className="font-bold text-xl mb-2 dark:bg-black dark:text-white">Quality Questions</h3>
+                            <p className="text-gray-600 dark:bg-black dark:text-white">Carefully curated questions to enhance your problem-solving
                                 skills.</p>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="../assets/icons/icon-2.jpeg" alt="Intuitive UI"
-                                 className="w-12 h-12 mx-auto mb-4"/>
-                            <h3 className="font-bold text-xl mb-2">Intuitive UI</h3>
-                            <p className="text-gray-600">Designed with simplicity in mind to focus on your learning.</p>
+                        <div className="border-4 bg-white p-6 rounded-lg shadow-md max-w-xs dark:bg-black dark:text-white dark:border-white">
+                            <img src={Icon2} alt="Intuitive UI"
+                                 className="w-12 h-12 mx-auto mb-4 dark:bg-black dark:text-white"/>
+                            <h3 className="font-bold text-xl mb-2 dark:bg-black dark:text-white">Intuitive UI</h3>
+                            <p className="text-gray-600 dark:bg-black dark:text-white">Designed with simplicity in mind to focus on your learning.</p>
                         </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md max-w-xs">
-                            <img src="../assets/icons/icon-3.jpeg" alt="Progress Tracking"
-                                 className="w-12 h-12 mx-auto mb-4"/>
-                            <h3 className="font-bold text-xl mb-2">Progress Tracking</h3>
-                            <p className="text-gray-600">Easily monitor your progress and stay motivated.</p>
+                        <div className="border-4 bg-white p-6 rounded-lg shadow-md max-w-xs dark:bg-black dark:text-white dark:border-white">
+                            <img src={Icon3} alt="Progress Tracking"
+                                 className="w-12 h-12 mx-auto mb-4 dark:bg-black dark:text-white"/>
+                            <h3 className="font-bold text-xl mb-2 dark:bg-black dark:text-white">Progress Tracking</h3>
+                            <p className="text-gray-600 dark:bg-black dark:text-white">Easily monitor your progress and stay motivated.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Success Stories */}
-            <section className="py-16 bg-gray-100">
-                <div className="container mx-auto text-center">
-                    <h2 className="text-4xl font-bold text-gray-800 mb-8">Success Stories</h2>
-                    <div className="relative max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-                        <div className="absolute inset-0 flex items-center justify-between px-4">
+            <section className="py-16 bg-gray-100 dark:bg-black dark:text-white">
+                <div className="container mx-auto text-center ">
+                    <h2 className="text-4xl font-bold text-gray-800 mb-8 dark:bg-black dark:text-white">Success Stories</h2>
+                    <div className="relative max-w-2xl mx-auto bg-black p-8 rounded-lg shadow-lg ">
+                        <div className="absolute inset-0 flex items-center justify-between px-4 ">
                             <button
                                 onClick={prevSlide}
-                                className="bg-gray-200 text-gray-600 hover:bg-gray-300 p-3 rounded-full shadow-md transform transition-transform duration-300 hover:scale-110"
+                                className="bg-black text-gray-600 hover:bg-gray-300 p-3 rounded-full shadow-md transform transition-transform duration-300 hover:scale-110 dark:bg-black dark:text-white"
                             >
-                                <FaChevronLeft className="text-2xl"/>
+                                <FaChevronLeft className="text-2xl dark:bg-black dark:text-white"/>
                             </button>
                             <button
                                 onClick={nextSlide}
-                                className="bg-gray-200 text-gray-600 hover:bg-gray-300 p-3 rounded-full shadow-md transform transition-transform duration-300 hover:scale-110"
+                                className="bg-gray-200 text-gray-600 hover:bg-gray-300 p-3 rounded-full shadow-md transform transition-transform duration-300 hover:scale-110 dark:bg-black dark:text-white"
                             >
-                                <FaChevronRight className="text-2xl"/>
+                                <FaChevronRight className="text-2xl dark:bg-black dark:text-white"/>
                             </button>
                         </div>
                         <div className="flex items-center justify-center">
-                            <div className="mx-6">
-                                <p className="text-xl text-gray-700 italic">"{testimonials[currentSlide].review}"</p>
-                                <p className="mt-4 text-gray-600 font-semibold">- {testimonials[currentSlide].name}</p>
+                            <div className="mx-6 dark:bg-black dark:text-white">
+                                <p className="text-xl text-white italic">"{testimonials[currentSlide].review}"</p>
+                                <p className="mt-4 text-white font-semibold">- {testimonials[currentSlide].name}</p>
                             </div>
                         </div>
                     </div>
@@ -184,14 +199,14 @@ const Home = () => {
             </section>
 
             {/* FAQ Section */}
-            <section className="py-16 bg-gray-100">
-                <div className="container mx-auto">
-                    <h2 className="text-4xl font-bold text-center mb-8">Frequently Asked Questions</h2>
-                    <div className="max-w-2xl mx-auto">
+            <section className="py-16 bg-gray-100 dark:bg-black dark:text-white">
+                <div className="container mx-auto dark:bg-black dark:text-white">
+                    <h2 className="text-4xl font-bold text-center mb-8 dark:bg-black dark:text-white">Frequently Asked Questions</h2>
+                    <div className="max-w-2xl mx-auto dark:bg-black dark:text-white">
                         {faqData.map((faq, index) => (
-                            <div key={index} className="mb-6">
-                                <h3 className="text-xl font-semibold text-gray-800 mb-2">{faq.question}</h3>
-                                <p className="text-gray-600">{faq.answer}</p>
+                            <div key={index} className="mb-6 dark:bg-black dark:text-white">
+                                <h3 className="text-xl font-semibold text-gray-800 mb-2 dark:bg-black dark:text-white">{faq.question}</h3>
+                                <p className="text-gray-600 dark:bg-black dark:text-white">{faq.answer}</p>
                             </div>
                         ))}
                     </div>
@@ -199,23 +214,23 @@ const Home = () => {
             </section>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-white py-8">
-                <div className="container mx-auto text-center">
-                    <div className="mb-4">
-                        <a href="https://facebook.com" className="text-gray-400 hover:text-white mx-2">
-                            <FaFacebookF className="text-xl"/>
+            <footer className="bg-gray-900 text-white py-8 dark:bg-black dark:text-white">
+                <div className="container mx-auto text-center dark:bg-black dark:text-white">
+                    <div className="mb-4 dark:bg-black dark:text-white">
+                        <a href="https://facebook.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
+                            <FaFacebookF className="text-xl dark:bg-black dark:text-white"/>
                         </a>
-                        <a href="https://twitter.com" className="text-gray-400 hover:text-white mx-2">
-                            <FaTwitter className="text-xl"/>
+                        <a href="https://twitter.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
+                            <FaTwitter className="text-xl dark:bg-black dark:text-white"/>
                         </a>
-                        <a href="https://linkedin.com" className="text-gray-400 hover:text-white mx-2">
-                            <FaLinkedinIn className="text-xl"/>
+                        <a href="https://linkedin.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
+                            <FaLinkedinIn className="text-xl dark:bg-black dark:text-white"/>
                         </a>
-                        <a href="https://instagram.com" className="text-gray-400 hover:text-white mx-2">
-                            <FaInstagram className="text-xl"/>
+                        <a href="https://instagram.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
+                            <FaInstagram className="text-xl dark:bg-black dark:text-white"/>
                         </a>
                     </div>
-                    <p className="text-gray-400">© {new Date().getFullYear()} DSA Tracker. All rights reserved.</p>
+                    <p className="text-gray-400 dark:bg-black dark:text-white">© {new Date().getFullYear()} DSA Tracker. All rights reserved.</p>
                 </div>
             </footer>
         </div>
