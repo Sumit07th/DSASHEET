@@ -101,7 +101,7 @@ const Home = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 hover:bg-black">
-            <Navbar/>
+
 
             <section className="hero-section bg-gradient-to-r from-blue-500 to-purple-600 py-20 text-center relative">
                 <div

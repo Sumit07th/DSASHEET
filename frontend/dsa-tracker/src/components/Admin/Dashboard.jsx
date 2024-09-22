@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../Navbar'; // Importing the existing Navbar
 import { FaChartBar, FaPlus, FaList, FaCog, FaUsers, FaHistory, FaBell } from 'react-icons/fa';
 
 const Dashboard = () => {
     return (
         <div className="min-h-screen bg-gray-100">
             {/* Imported Navbar */}
-            <Navbar />
+
 
             {/* Hero Section */}
             <section className="bg-gradient-to-r from-blue-500 to-purple-600 py-16 text-center text-white mt-16">

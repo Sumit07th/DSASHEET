@@ -15,6 +15,8 @@ import ForgetPassword from "./pages/ForgetPassword.jsx";
 import Notify from "./pages/notify.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ChangedPassword from "./pages/ChangedPassword.jsx";
+import CompletionPieChart from "./components/User/CompletionPieChart.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 
 
@@ -23,6 +25,7 @@ function App() {
 
   return (
       <Router>
+          <Navbar />
           <Routes>
               <Route path="/" element={<Home />} />
 
@@ -38,6 +41,7 @@ function App() {
               <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
               <Route path="/changed-password" element={<ChangedPassword />}/>
               <Route path="/notify" element={<Notify/>}/>
+              <Route path="/pie" element={<CompletionPieChart />} />
 
 
 

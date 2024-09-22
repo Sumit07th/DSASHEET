@@ -43,13 +43,13 @@ const UserDashboard = () => {
         }
     }, [theme]);
 
-    const handleCheckboxChange = async (questionId, type) => {
+    const handleCheckboxChange = async (questionId, type, sheet) => {
         const question = questions.find(q => q._id === questionId);
         const newStatus = type === 'status' ? !question.userStatus : question.userStatus;
         const newRevision = type === 'revision' ? !question.userRevision : question.userRevision;
 
         try {
-            await updateUserQuestionStatusOrRevision(questionId, newStatus, newRevision);
+            await updateUserQuestionStatusOrRevision(questionId, newStatus, newRevision, sheet);
             setQuestions(prevQuestions =>
                 prevQuestions.map(q =>
                     q._id === questionId
@@ -126,8 +126,7 @@ const UserDashboard = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-black dark:text-white">
-            {/* Navbar */}
-            <Navbar />
+
 
             {/* Header Section */}
             <div className="text-center py-8 dark:bg-black dark:text-white">

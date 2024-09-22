@@ -22,7 +22,12 @@ const userQuestionInteractionSchema = new mongoose.Schema({
     notes: {
         type: String,  // You can also use 'type: [String]' if you want to store multiple notes
         default: ""    // Default empty string
+    },
+    sheet: {
+        type: String,
+        required: true
     }
+
 });
 
 const UserQuestionInteraction = mongoose.model('UserQuestionInteraction', userQuestionInteractionSchema);

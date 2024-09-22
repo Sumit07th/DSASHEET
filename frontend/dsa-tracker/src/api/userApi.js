@@ -29,11 +29,11 @@ export const fetchSheetQuestions = async (sheetName) => {
 };
 
 // Update status or revision for a specific question
-export const updateUserQuestionStatusOrRevision = async (questionId, status, revision) => {
+export const updateUserQuestionStatusOrRevision = async (questionId, status, revision, sheet) => {
     try {
         const response = await userAxiosInstance.put(`/user/questions/${questionId}/interaction`, {
             status,
-            revision,
+            revision, sheet,
         });
         return response.data;  // Returns the updated interaction
     } catch (error) {
@@ -120,6 +120,19 @@ export const changedPassword = async (oldPassword,newPassword) => {
         return response.data;  // Return the response data
     } catch (error) {
         console.error('Error changing password:', error);
+        throw error;  // Re-throw the error so it can be handled by the caller
+    }
+};
+
+// changed password
+export const getQuestionCount = async () => {
+    try {
+        // Make the API request to reset the password
+        const response = await userAxiosInstance.get('/user/getAllCount');
+
+        return response.data;  // Return the response data
+    } catch (error) {
+        console.error('Error getting question:', error);
         throw error;  // Re-throw the error so it can be handled by the caller
     }
 };

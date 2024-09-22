@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 const AdminDashboard = () => {
     return (
         <div>
-            <Navbar />
+
             <br/>
             <Dashboard />
         </div>

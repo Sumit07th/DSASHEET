@@ -38,7 +38,7 @@ const ChangedPassword = ({ onCancel }) => {
     };
 
     return (
-        <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+        <div className="max-w-full p-16 ml-16 bg-white shadow-lg rounded-lg">
             <h2 className="text-3xl font-extrabold mb-6 text-center text-blue-600">Change Password</h2>
 
             {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}

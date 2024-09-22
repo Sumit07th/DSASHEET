@@ -55,7 +55,7 @@ const ArticlePage = () => {
 
     return (
         <div className="p-4 bg-gray-100 min-h-screen dark:bg-black dark:text-white">
-            <Navbar />
+
             <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:bg-black dark:text-white">{article.topic}</h1>
             <div className="bg-white p-6 rounded-lg shadow-md dark:bg-black dark:text-white">
                 <h2 className="text-xl font-semibold mb-4 dark:bg-black dark:text-white">Problem Statement:</h2>

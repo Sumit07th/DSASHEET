@@ -15,7 +15,7 @@ const Notify = () => {
 
                 <button
                     onClick={handleNavigate}
-                    className="mt-4 bg-violet-600 hover:bg-violet-500 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
+                    className="mt-4 bg-blue-600 hover:bg-violet-500 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
                 >
                     Go to Login
                 </button>

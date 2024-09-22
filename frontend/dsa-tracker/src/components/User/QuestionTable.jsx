@@ -6,6 +6,7 @@ import videoIcons, { getVideoIcon } from './videoIcons';
 import { themeState } from '../../recoil/atoms/themeAtom';
 import {useEffect} from "react";
 import {useRecoilValue} from "recoil";
+import {useParams} from "react-router-dom";
 
 const QuestionTable = ({ questions, handleCheckboxChange, handleNoteButtonClick, expandedTopic, expandedDifficulty, toggleDifficulty }) => {
     const groupedQuestions = questions.reduce((acc, question) => {
@@ -16,6 +17,8 @@ const QuestionTable = ({ questions, handleCheckboxChange, handleNoteButtonClick,
     }, {});
 
     const theme = useRecoilValue(themeState);
+    const {sheet} = useParams();
+    //console.log(sheet)
 
     // Apply dark mode class to the <html> element based on the theme state
     useEffect(() => {
@@ -77,7 +80,7 @@ const QuestionTable = ({ questions, handleCheckboxChange, handleNoteButtonClick,
                                                             <input
                                                                 type="checkbox"
                                                                 checked={question.userStatus}
-                                                                onChange={() => handleCheckboxChange(question._id, 'status')}
+                                                                onChange={() => handleCheckboxChange(question._id, 'status', sheet)}
                                                                 className="mr-2"
                                                             />
                                                         </td>

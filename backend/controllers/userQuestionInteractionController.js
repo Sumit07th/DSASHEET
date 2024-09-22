@@ -6,7 +6,7 @@ exports.updateStatusOrRevision = async (req, res) => {
     try {
         const userId = req.user._id;  // Ensure consistency with getUserQuestions
         const { questionId } = req.params;
-        const { status, revision } = req.body;
+        const { status, revision, sheet } = req.body;
 
         // Validate input (ensure questionId, status, and revision are provided)
         if (!questionId || (status === undefined && revision === undefined)) {
@@ -16,7 +16,7 @@ exports.updateStatusOrRevision = async (req, res) => {
         // Find the interaction or create a new one
         const interaction = await UserQuestionInteraction.findOneAndUpdate(
             { userId, questionId },
-            { status, revision },
+            { status, revision, sheet },
             { new: true, upsert: true }
         );
 
@@ -189,3 +189,34 @@ exports.deleteNote = async (req, res) => {
         res.status(500).json({ message: 'Error deleting note.', error });
     }
 };
+
+exports.getAllCount = async (req, res) => {
+
+    try {
+        const totalQuestionsPerSheet = await Question.aggregate([
+            { $group: { _id: "$sheet", totalQuestions: { $sum: 1 } } }
+        ]);
+
+        const completedInteractionsPerSheet = await UserQuestionInteraction.aggregate([
+            { $match: { status: true } },
+            { $group: { _id: "$sheet", completedCount: { $sum: 1 } } }
+        ]);
+
+        const result = totalQuestionsPerSheet.map(total => {
+            const completed = completedInteractionsPerSheet.find(c => c._id === total._id);
+            return {
+                sheet: total._id,
+                totalQuestions: total.totalQuestions,
+                completedCount: completed ? completed.completedCount : 0
+            };
+        });
+
+        console.log(result)
+        res.status(200).json({message: 'Counts fetched successfully', result});
+
+    } catch (error) {
+        console.error('Error getting counts:', error);
+        res.status(500).json({ message: 'Error getting counts.', error });
+    }
+}
+
