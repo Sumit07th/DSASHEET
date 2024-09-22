@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Link } from "react-router-dom";
 import { FaLink } from "react-icons/fa";
-import Navbar from "../Navbar.jsx";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -22,6 +21,7 @@ const PieChartWithPercentage = ({ totalCount, completedCount, sheet }) => {
         ],
     };
 
+
     const options = {
         cutout: '70%', // To make it appear more like a pie/doughnut chart with a hollow center
         plugins: {
@@ -35,7 +35,7 @@ const PieChartWithPercentage = ({ totalCount, completedCount, sheet }) => {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center ">
             <div className="relative w-48 h-48">
                 <Doughnut data={data} options={options} />
 

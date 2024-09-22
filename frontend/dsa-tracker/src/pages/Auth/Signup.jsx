@@ -1,8 +1,8 @@
 // src/components/Auth/Register.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from "../utils/axiosInstance.js";
-import { authState } from "../recoil/atoms/authAtoms.js";
+import axiosInstance from "../../utils/axiosInstance.js";
+import { authState } from "../../recoil/atoms/authAtoms.js";
 import { useSetRecoilState } from "recoil";
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa'; // Import the cross icon

@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import StudentDashboard from './pages/StudentDashboard.jsx';
-import Login from './pages/Login.jsx';
-import Signup from './pages/Signup.jsx';
+import Login from './pages/Auth/Login.jsx';
+import Signup from './pages/Auth/Signup.jsx';
 import Home from './pages/Home.jsx';
 import QuestionForm from "./components/Admin/QuestionForm.jsx";
 import QuestionList from "./components/Admin/QuestionList.jsx";
@@ -11,12 +11,22 @@ import UpdateQuestion from './components/Admin/UpdateQuestion.jsx';
 import userDashboard from "./components/User/userDashboard.jsx";
 import ArticlePage from "./components/User/ArticlePage.jsx";
 import Dashboard from "./components/User/dashboard.jsx";
-import ForgetPassword from "./pages/ForgetPassword.jsx";
-import Notify from "./pages/notify.jsx";
-import ResetPassword from "./pages/ResetPassword.jsx";
-import ChangedPassword from "./pages/ChangedPassword.jsx";
+import ForgetPassword from "./pages/Auth/ForgetPassword.jsx";
+import Notify from "./pages/Auth/notify.jsx";
+import ResetPassword from "./pages/Auth/ResetPassword.jsx";
+import ChangedPassword from "./components/User/ChangedPassword.jsx";
 import CompletionPieChart from "./components/User/CompletionPieChart.jsx";
 import Navbar from "./components/Navbar.jsx";
+import AboutUs from "./pages/company/AboutUs.jsx";
+import ContactUs from "./pages/company/ContactUs.jsx";
+import PrivacyPolicy from "./pages/company/PrivacyPolicy.jsx";
+import TermsConditions from "./pages/company/TermsCondition.jsx";
+import Blog from "./pages/resource/Blog.jsx";
+import Faq from "./pages/resource/Faq.jsx";
+import CareerTips from "./pages/resource/CareerTips.jsx";
+import InterviewPreparation from "./pages/resource/InterviewPreparation.jsx";
+import CodingChallenges from "./pages/resource/CodingChallenges.jsx";
+import ErrorPage from "./pages/Error.jsx";
 
 
 
@@ -42,11 +52,18 @@ function App() {
               <Route path="/changed-password" element={<ChangedPassword />}/>
               <Route path="/notify" element={<Notify/>}/>
               <Route path="/pie" element={<CompletionPieChart />} />
-
-
-
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/contact-us" element={<ContactUs />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />}/>
+              <Route path="/terms-conditions" element={<TermsConditions />}/>
+              <Route path="/blogs" element={<Blog />} />
+              <Route path="/faqs" element={<Faq />} />
+              <Route path="/career-tips" element={<CareerTips />}/>
+              <Route path="/interview-preparation" element={<InterviewPreparation />}/>
+              <Route path="/coding-challenges" element={<CodingChallenges />} />
               <Route path="/:sheet" element={<StudentDashboard />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              <Route path="*" element={<ErrorPage />} />
 
           </Routes>
       </Router>

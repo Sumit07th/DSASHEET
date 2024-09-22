@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { changedPassword } from "../api/userApi.js";
+import {useEffect, useState} from 'react';
+import { changedPassword } from "../../api/userApi.js";
 import { useNavigate } from "react-router-dom";
+import {useRecoilValue} from "recoil";
+import {themeState} from "../../recoil/atoms/themeAtom.js";
 
 const ChangedPassword = ({ onCancel }) => {
     const [oldPassword, setOldPassword] = useState("");
@@ -8,6 +10,17 @@ const ChangedPassword = ({ onCancel }) => {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
+    const theme = useRecoilValue(themeState);
+
+    // Apply dark mode class to the <html> element based on the theme state
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [theme]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,7 +51,7 @@ const ChangedPassword = ({ onCancel }) => {
     };
 
     return (
-        <div className="max-w-full p-16 ml-16 bg-white shadow-lg rounded-lg">
+        <div className="border-2 max-w-full p-16 ml-16 bg-white shadow-lg rounded-lg dark:bg-black dark:text-white dark:border-white">
             <h2 className="text-3xl font-extrabold mb-6 text-center text-blue-600">Change Password</h2>
 
             {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
@@ -46,23 +59,23 @@ const ChangedPassword = ({ onCancel }) => {
 
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-medium mb-2">Old Password</label>
+                    <label className="block text-gray-700 text-sm font-medium mb-2 dark:text-white">Old Password</label>
                     <input
                         type="password"
                         value={oldPassword}
                         onChange={(e) => setOldPassword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-white dark:bg-black"
                         required
                     />
                 </div>
 
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-medium mb-2">New Password</label>
+                    <label className="block text-gray-700 text-sm font-medium mb-2 dark:text-white">New Password</label>
                     <input
                         type="password"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-white dark:bg-black"
                         required
                     />
                 </div>

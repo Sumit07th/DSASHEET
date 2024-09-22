@@ -26,8 +26,10 @@ const PieChart = () => {
         fetchData();
     }, []);
 
+
+
     return (
-        <div className="flex flex-wrap gap-6">
+        <div className=" flex flex-wrap gap-6">
             {count.map((item, key) => (
                 <div key={key}>
                     <PieChartWithPercentage completedCount={item.completedCount} totalCount={item.totalQuestions} sheet={item.sheet}

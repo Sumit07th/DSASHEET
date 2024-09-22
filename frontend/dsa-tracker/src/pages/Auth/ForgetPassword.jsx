@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { forgetPassword } from "../api/userApi.js";
+import { forgetPassword } from "../../api/userApi.js";
+import { FaTimes, FaSpinner } from "react-icons/fa";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Loading state
     const navigate = useNavigate(); // Initialize the navigate function
 
     const handleSubmit = async (e) => {
@@ -20,22 +22,24 @@ const ForgotPassword = () => {
             // Clear previous messages
             setErrorMessage('');
             setSuccessMessage('');
-
+            setIsLoading(true); // Set loading to true when submitting
 
             // Make the API request to the backend
             const response = await forgetPassword(email);
 
             if (response.success) {
-                setSuccessMessage('Reset password email sent');
-                // Navigate to notify page after success
+                setSuccessMessage('Reset password email sent. Redirecting...');
+
+                // Delay for user to see the success message, with spinner showing
                 setTimeout(() => {
                     navigate('/notify');
-                }, 2000); // Delay for user to see the success message
+                }, 2000);
             }
         } catch (error) {
-            // Display the error message inline
             const errorMsg = error?.response?.data?.message || 'Email is incorrect';
             setErrorMessage(errorMsg);
+        } finally {
+            setIsLoading(false); // Stop the loading state after the request is complete
         }
     };
 
@@ -43,13 +47,24 @@ const ForgotPassword = () => {
         setEmail(e.target.value);
     };
 
+    const handleClose = () => {
+        navigate('/login');
+    };
+
     return (
         <div className="flex items-center justify-center h-screen">
             <form
                 noValidate
                 onSubmit={handleSubmit}
-                className="flex flex-col p-6 shadow-lg rounded-lg w-full max-w-md bg-white"
+                className="relative flex flex-col p-6 shadow-lg rounded-lg w-full max-w-md bg-white"
             >
+                <button
+                    onClick={handleClose}
+                    type="button"
+                    className="absolute top-4 right-4 text-red-600 hover:text-red-800 transition duration-200"
+                >
+                    <FaTimes size={24} />
+                </button>
                 <h1 className="text-2xl font-bold mb-4 text-center">Forgot Password</h1>
 
                 {/* Email Input */}
@@ -72,9 +87,18 @@ const ForgotPassword = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="mt-4 bg-blue-600 hover:bg-violet-500 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
+                    className={`w-full bg-blue-600 text-white py-3 px-4 rounded-lg shadow hover:bg-blue-700 transition duration-200 ${
+                        isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    disabled={isLoading} // Disable button when loading
                 >
-                    Send Reset Email
+                    {isLoading ? (
+                        <div className="flex items-center justify-center">
+                            <FaSpinner className="animate-spin mr-2" /> Sending...
+                        </div>
+                    ) : (
+                        'Send Reset Email'
+                    )}
                 </button>
 
                 {/* Error Message */}
@@ -85,6 +109,13 @@ const ForgotPassword = () => {
                 {/* Success Message */}
                 {successMessage && (
                     <p className="text-green-500 text-sm mt-4">{successMessage}</p>
+                )}
+
+                {/* Loading spinner */}
+                {isLoading && (
+                    <div className="mt-4 text-center">
+                        <FaSpinner className="animate-spin text-blue-600" size={24} />
+                    </div>
                 )}
             </form>
         </div>

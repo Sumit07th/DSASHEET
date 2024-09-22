@@ -8,6 +8,7 @@ import { FaChevronLeft, FaChevronRight, FaFacebookF, FaTwitter, FaLinkedinIn, Fa
 import Icon1 from '../assets/icons/icon-1.jpeg';
 import Icon2 from '../assets/icons/icon-2.jpeg';
 import Icon3 from '../assets/icons/icon-3.jpeg';
+import Footer from './Footer.jsx';
 
 
 
@@ -44,8 +45,8 @@ const Home = () => {
 
     const faqData = [
         {
-            question: 'What is DSA Tracker?',
-            answer: 'DSA Tracker is your ultimate tool for mastering Data Structures and Algorithms.',
+            question: 'What is CodeCompass?',
+            answer: 'CodeCompass is your ultimate tool for mastering Data Structures and Algorithms.',
         },
         {
             question: 'Is it free to use?',
@@ -214,25 +215,7 @@ const Home = () => {
             </section>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-white py-8 dark:bg-black dark:text-white">
-                <div className="container mx-auto text-center dark:bg-black dark:text-white">
-                    <div className="mb-4 dark:bg-black dark:text-white">
-                        <a href="https://facebook.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
-                            <FaFacebookF className="text-xl dark:bg-black dark:text-white"/>
-                        </a>
-                        <a href="https://twitter.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
-                            <FaTwitter className="text-xl dark:bg-black dark:text-white"/>
-                        </a>
-                        <a href="https://linkedin.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
-                            <FaLinkedinIn className="text-xl dark:bg-black dark:text-white"/>
-                        </a>
-                        <a href="https://instagram.com" className="text-gray-400 hover:text-white mx-2 dark:bg-black dark:text-white">
-                            <FaInstagram className="text-xl dark:bg-black dark:text-white"/>
-                        </a>
-                    </div>
-                    <p className="text-gray-400 dark:bg-black dark:text-white">© {new Date().getFullYear()} DSA Tracker. All rights reserved.</p>
-                </div>
-            </footer>
+           <Footer />
         </div>
     );
 };
