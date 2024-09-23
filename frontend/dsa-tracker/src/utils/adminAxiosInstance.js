@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000';  // Backend API URL
+const BASE_URL = 'https://codecompass-six.vercel.app';  // Backend API URL
 
 const adminAxiosInstance = axios.create({
     baseURL: BASE_URL,
