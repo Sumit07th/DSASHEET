@@ -16,7 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS Middleware (optional, if needed for cross-origin requests)
-app.use(cors());
+app.use(cors({
+    origin: "https://codecompassapp.vercel.app",
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true
+}));
 
 // Connect to MongoDB
 const connectDB = async () => {
