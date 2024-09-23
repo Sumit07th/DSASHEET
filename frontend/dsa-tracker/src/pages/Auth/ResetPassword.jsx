@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {resetPassword} from "../../api/userApi.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import {toast} from "react-hot-toast";
 
 const ResetPassword = () => {
     const { resetToken } = useParams(); // Extract token from the URL
@@ -8,6 +11,7 @@ const ResetPassword = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = (e) => {
         setPassword(e.target.value);
@@ -25,6 +29,7 @@ const ResetPassword = () => {
 
             const response = await resetPassword(resetToken, password);
             if(response.success) {
+                toast.success('Password Reset Successfully');
                 setSuccess('Password reset successfully');
                 setError('');
                 setTimeout(() => {
@@ -32,6 +37,7 @@ const ResetPassword = () => {
                 }, 2000);
             }
             } catch (error) {
+            toast.error('Something went wrong');
             setError(error.response?.data?.message || 'Something went wrong');
             setSuccess(''); // Clear success message in case of error
         }
@@ -48,17 +54,27 @@ const ResetPassword = () => {
                     {error && <p className="text-red-500 mb-4">{error}</p>}
                     {success && <p className="text-green-500 mb-4">{success}</p>}
                     <div className="mb-4">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">New Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Enter new password"
-                            value={password}
-                            onChange={handleChange}
-                            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                            required
-                        />
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">New
+                            Password</label>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                name="password"
+                                placeholder="Enter new password"
+                                value={password}
+                                onChange={handleChange}
+                                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute inset-y-0 right-0 flex items-center pr-3"
+                            >
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye}/>
+                            </button>
+                        </div>
                     </div>
                     <button
                         type="submit"

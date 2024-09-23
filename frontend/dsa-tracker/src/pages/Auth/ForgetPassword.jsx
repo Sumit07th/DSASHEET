@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { forgetPassword } from "../../api/userApi.js";
 import { FaTimes, FaSpinner } from "react-icons/fa";
+import {toast} from "react-hot-toast";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ const ForgotPassword = () => {
         e.preventDefault();
 
         if (!email) {
+            toast.error('Enter your Email');
             setErrorMessage('Please enter your email');
             return;
         }
@@ -28,6 +30,7 @@ const ForgotPassword = () => {
             const response = await forgetPassword(email);
 
             if (response.success) {
+                toast.success('Email Sent Sucessfully');
                 setSuccessMessage('Reset password email sent. Redirecting...');
 
                 // Delay for user to see the success message, with spinner showing
@@ -36,6 +39,7 @@ const ForgotPassword = () => {
                 }, 2000);
             }
         } catch (error) {
+            toast.error('Email is Incorrect');
             const errorMsg = error?.response?.data?.message || 'Email is incorrect';
             setErrorMessage(errorMsg);
         } finally {

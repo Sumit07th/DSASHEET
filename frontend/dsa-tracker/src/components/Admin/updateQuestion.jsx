@@ -136,7 +136,7 @@ const UpdateQuestion = () => {
                 {/* Question */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Question</label>
-                    <input
+                    <textarea
                         type="text"
                         name="question"
                         value={formData.question || ''}
@@ -151,7 +151,7 @@ const UpdateQuestion = () => {
                     <h2 className="text-xl font-bold">Article Details</h2>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Article Topic</label>
-                        <input
+                        <textarea
                             type="text"
                             name="topic"
                             value={formData.article.topic || ''}
@@ -162,7 +162,7 @@ const UpdateQuestion = () => {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Problem Statement</label>
-                        <input
+                        <textarea
                             type="text"
                             name="problemStatement"
                             value={formData.article.problemStatement || ''}
@@ -173,7 +173,7 @@ const UpdateQuestion = () => {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Example</label>
-                        <input
+                        <textarea
                             type="text"
                             name="example"
                             value={formData.article.example || ''}
@@ -190,7 +190,7 @@ const UpdateQuestion = () => {
                                 <label className="block text-sm font-medium text-gray-700">
                                     Approach {index + 1}
                                 </label>
-                                <input
+                                <textarea
                                     type="text"
                                     name="approach"
                                     value={item.approach || ''}
@@ -201,7 +201,7 @@ const UpdateQuestion = () => {
                                 <label className="block text-sm font-medium text-gray-700">
                                     Code {index + 1}
                                 </label>
-                                <input
+                                <textarea
                                     type="text"
                                     name="code"
                                     value={item.code || ''}
@@ -234,7 +234,7 @@ const UpdateQuestion = () => {
                         <h3 className="text-lg font-bold">{editingSolutionIndex !== null ? 'Edit Solution' : 'Add New Solution'}</h3>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Approach</label>
-                            <input
+                            <textarea
                                 type="text"
                                 name="approach"
                                 value={newSolution.approach || ''}
@@ -244,7 +244,7 @@ const UpdateQuestion = () => {
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Code</label>
-                            <input
+                            <textarea
                                 type="text"
                                 name="code"
                                 value={newSolution.code || ''}

@@ -22,7 +22,7 @@ const Footer = () => {
 
                 {/* Column 1: DSA Tracker Description */}
                 <div>
-                    <h2 className="text-2xl font-bold mb-4">DSA Tracker</h2>
+                    <h2 className="text-2xl font-bold mb-4">Code Compass</h2>
                     <p className="text-gray-400 mb-4">
                         Your ultimate guide to mastering Data Structures and Algorithms. Track your progress, prepare
                         for coding interviews, and stay ahead in the competitive world of software engineering.
@@ -146,7 +146,7 @@ const Footer = () => {
             {/* Footer Bottom */}
             <div className="mt-8 border-t border-gray-700 pt-6 text-center">
                 <p className="text-gray-400">
-                    © {new Date().getFullYear()} DSA Tracker. All rights reserved.
+                    © {new Date().getFullYear()} Code Compass. All rights reserved.
                 </p>
             </div>
         </footer>

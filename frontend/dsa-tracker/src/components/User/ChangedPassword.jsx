@@ -3,6 +3,9 @@ import { changedPassword } from "../../api/userApi.js";
 import { useNavigate } from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {themeState} from "../../recoil/atoms/themeAtom.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import {toast} from "react-hot-toast";
 
 const ChangedPassword = ({ onCancel }) => {
     const [oldPassword, setOldPassword] = useState("");
@@ -10,6 +13,9 @@ const ChangedPassword = ({ onCancel }) => {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+    const [showOldPassword, setShowOldPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+
 
     const theme = useRecoilValue(themeState);
 
@@ -37,14 +43,17 @@ const ChangedPassword = ({ onCancel }) => {
             const response = await changedPassword(oldPassword, newPassword);
 
             if (response.success) {
+                toast.success('Password changed successfully');
                 setSuccessMessage('Password changed successfully');
                 setTimeout(() => {
                     navigate('/dashboard'); // Navigate to dashboard
                 }, 2000);
             } else {
+                toast.error('Password change failed');
                 setErrorMessage('Password change failed');
             }
         } catch (error) {
+            toast.error('Password change failed');
             const errorMsg = error?.response?.data?.message || 'Password change failed';
             setErrorMessage(errorMsg);
         }
@@ -60,24 +69,42 @@ const ChangedPassword = ({ onCancel }) => {
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-medium mb-2 dark:text-white">Old Password</label>
-                    <input
-                        type="password"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-white dark:bg-black"
-                        required
-                    />
+                    <div className="relative">
+                        <input
+                            type={showOldPassword ? 'text' : 'password'}
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-white dark:bg-black"
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowOldPassword(!showOldPassword)}
+                            className="absolute inset-y-0 right-0 flex items-center pr-3"
+                        >
+                            <FontAwesomeIcon icon={showOldPassword ? faEyeSlash : faEye}/>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-medium mb-2 dark:text-white">New Password</label>
-                    <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-white dark:bg-black"
-                        required
-                    />
+                    <div className="relative">
+                        <input
+                            type={showNewPassword ? 'text' : 'password'}
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-white dark:bg-black"
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowNewPassword(!showNewPassword)}
+                            className="absolute inset-y-0 right-0 flex items-center pr-3"
+                        >
+                            <FontAwesomeIcon icon={showNewPassword ? faEyeSlash : faEye}/>
+                        </button>
+                    </div>
                 </div>
 
                 <button

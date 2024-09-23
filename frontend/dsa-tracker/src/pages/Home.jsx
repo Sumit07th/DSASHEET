@@ -68,7 +68,7 @@ const Home = () => {
 
     const handleButtonClick = (name) => {
         if (isLoggedIn) {
-            navigate(`/${name}`);
+            navigate(`/dashboard/${name}`);
         } else {
             navigate('/login');
         }

@@ -27,6 +27,7 @@ import CareerTips from "./pages/resource/CareerTips.jsx";
 import InterviewPreparation from "./pages/resource/InterviewPreparation.jsx";
 import CodingChallenges from "./pages/resource/CodingChallenges.jsx";
 import ErrorPage from "./pages/Error.jsx";
+import AdminRoute from "./components/Admin/AdminRoute.jsx";
 
 
 
@@ -41,9 +42,9 @@ function App() {
 
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/questionsList" element={<QuestionList />} />
-              <Route path="/createQuestion" element={<QuestionForm />} />
-              <Route path="/questions/update/:id" element={<UpdateQuestion />} />
+              <Route path="/questionsList" element={<AdminRoute><QuestionList /> </AdminRoute>} />
+              <Route path="/createQuestion" element={<AdminRoute> <QuestionForm /></AdminRoute>} />
+              <Route path="/questions/update/:id" element={<AdminRoute> <UpdateQuestion /></AdminRoute>} />
               <Route path="/question" element={<userDashboard />}/>
               <Route path="/article/:questionId" element={<ArticlePage />} />
               <Route path="/dashboard" element={<Dashboard />} />
@@ -61,9 +62,10 @@ function App() {
               <Route path="/career-tips" element={<CareerTips />}/>
               <Route path="/interview-preparation" element={<InterviewPreparation />}/>
               <Route path="/coding-challenges" element={<CodingChallenges />} />
-              <Route path="/:sheet" element={<StudentDashboard />} />
-              <Route path="/admin-dashboard" element={<AdminDashboard />} />
               <Route path="*" element={<ErrorPage />} />
+              <Route path="/dashboard/:sheet" element={<StudentDashboard />} />
+              <Route path="/admin-dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>}/>
+
 
           </Routes>
       </Router>

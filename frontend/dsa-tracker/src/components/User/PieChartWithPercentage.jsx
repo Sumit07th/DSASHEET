@@ -47,7 +47,7 @@ const PieChartWithPercentage = ({ totalCount, completedCount, sheet }) => {
             </div>
 
             {/* Centered Link below the Pie Chart */}
-            <Link to={`/${sheet}`} className="flex items-center text-blue-500 hover:underline mt-4">
+            <Link to={`/dashboard/${sheet}`} className="flex items-center text-blue-500 hover:underline mt-4">
                 <FaLink className="mr-1" /> {/* Link icon */}
                 {sheet}
             </Link>

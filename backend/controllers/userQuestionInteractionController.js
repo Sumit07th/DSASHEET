@@ -66,11 +66,11 @@ exports.getSheetsQuestions = async (req, res) => {
     try {
         const userId = req.user._id;
         const { sheetName } = req.params;
-        console.log(sheetName)
+
 
         // Fetch all questions for the given sheet
         const questions = await Question.find({ sheet: sheetName });
-        console.log(questions)
+
 
         // Extract the question IDs from the fetched questions
         const questionIds = questions.map(q => q._id);
@@ -211,7 +211,7 @@ exports.getAllCount = async (req, res) => {
             };
         });
 
-        console.log(result)
+
         res.status(200).json({message: 'Counts fetched successfully', result});
 
     } catch (error) {

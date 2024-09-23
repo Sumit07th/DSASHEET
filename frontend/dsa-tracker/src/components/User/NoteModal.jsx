@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {useRecoilValue} from "recoil";
-import {themeState} from "../../recoil/atoms/themeAtom.js";
+import React, { useEffect } from 'react';
+import { useRecoilValue } from "recoil";
+import { themeState } from "../../recoil/atoms/themeAtom.js";
 
 const NoteModal = ({ modalVisible, noteText, setNoteText, handleNoteSave, handleNoteDelete, setModalVisible, editingNote }) => {
 
@@ -18,13 +18,13 @@ const NoteModal = ({ modalVisible, noteText, setNoteText, handleNoteSave, handle
     return (
         modalVisible && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 dark:bg-black dark:text-white dark:bg-opacity-50">
-                <div className="border-4 bg-white p-6 rounded-lg shadow-lg w-80 dark:bg-black dark:text-white dark:border-white">
+                <div className="border-4 bg-white p-6 rounded-lg shadow-lg w-[750px] h-[500px] dark:bg-black dark:text-white dark:border-white"> {/* Doubled width and height */}
                     <h2 className="text-xl font-bold mb-4 dark:bg-black dark:text-white">{editingNote ? 'Edit Note' : 'Add Note'}</h2>
                     <textarea
                         value={noteText}
                         onChange={(e) => setNoteText(e.target.value)}
-                        rows="4"
-                        className="w-full p-2 border border-gray-300 rounded-lg mb-4 dark:bg-black dark:text-white"
+                        rows="12" // Increased rows for more height
+                        className="w-full h-400 p-2 border border-gray-300 rounded-lg mb-4 dark:bg-black dark:text-white" // Set to full height
                         placeholder="Enter your notes here..."
                     />
                     <div className="flex justify-between dark:bg-black dark:text-white">

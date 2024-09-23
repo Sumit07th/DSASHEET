@@ -50,20 +50,9 @@ function Navbar() {
         <div className="container mx-auto px-3 py-3 flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
-            {/* Opening icon */}
-            <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-4xl font-bold`}>
-            &lt;
-          </span>
-            <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-3xl font-bold`}>
-            CodeCompass
-          </span>
-            <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-4xl font-bold`}>
-            /
-          </span>
-            {/* Closing icon */}
-            <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-4xl font-bold`}>
-            &gt;
-          </span>
+            <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-4xl font-bold`}>&lt;</span>
+            <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-3xl font-bold`}>CodeCompass</span>
+            <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-800'} text-4xl font-bold`}>&gt;</span>
           </div>
 
           <div className="flex items-center space-x-6">
@@ -112,6 +101,16 @@ function Navbar() {
                         >
                           <FaSignOutAlt className="mr-2" /> Sign Out
                         </button>
+
+                        {/* Admin Button */}
+                        {user?.role === 'admin' && ( // Check if the user is an admin
+                            <button
+                                onClick={() => navigate('/admin-dashboard')}
+                                className={`flex items-center w-full px-4 py-2 text-left hover:bg-gray-100 ${theme === 'dark' ? 'hover:bg-gray-600 text-white' : 'text-gray-800'}`}
+                            >
+                              <FaUserCircle className="mr-2" /> Admin Dashboard
+                            </button>
+                        )}
                       </div>
                   )}
                 </div>

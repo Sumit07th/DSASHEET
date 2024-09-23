@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { themeState } from '../recoil/atoms/themeAtom';
 import { Link } from 'react-router-dom';
+import {toast} from "react-hot-toast";
 
 const ErrorPage = () => {
     const theme = useRecoilValue(themeState);
+    toast.error('Error');
 
     // Apply dark mode class to the <html> element based on the theme state
     useEffect(() => {

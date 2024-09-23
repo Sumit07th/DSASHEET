@@ -41,7 +41,7 @@ exports.updateQuestion = async (req, res) => {
 
         res.status(200).json({ message: 'Question updated successfully.', question: updatedQuestion });
     } catch (error) {
-        console.error('Error updating question:', error);
+
         res.status(500).json({ message: 'Error updating question.', error });
     }
 };
@@ -67,7 +67,7 @@ exports.addSolutionToArticle = async (req, res) => {
 
         res.status(200).json({ message: 'Solution added successfully.', question });
     } catch (error) {
-        console.error('Error adding solution:', error);
+
         res.status(500).json({ message: 'Error adding solution.', error });
     }
 };
@@ -97,7 +97,7 @@ exports.deleteSolutionFromArticle = async (req, res) => {
 
         res.status(200).json({ message: 'Solution deleted successfully.', question });
     } catch (error) {
-        console.error('Error deleting solution:', error);
+
         res.status(500).json({ message: 'Error deleting solution.', error });
     }
 };

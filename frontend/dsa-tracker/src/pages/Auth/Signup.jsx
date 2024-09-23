@@ -5,7 +5,8 @@ import axiosInstance from "../../utils/axiosInstance.js";
 import { authState } from "../../recoil/atoms/authAtoms.js";
 import { useSetRecoilState } from "recoil";
 import { Link } from 'react-router-dom';
-import { FaTimes } from 'react-icons/fa'; // Import the cross icon
+import { FaTimes } from 'react-icons/fa';
+import {toast} from "react-hot-toast"; // Import the cross icon
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -41,8 +42,10 @@ const Signup = () => {
             });
 
             // Redirect to the Home page after successful registration
+            toast.success('Registerd Successfully');
             navigate('/user-dashboard');
         } catch (err) {
+            toast.error('Failed');
             setError(err.response?.data?.message || err.message);
         }
     };

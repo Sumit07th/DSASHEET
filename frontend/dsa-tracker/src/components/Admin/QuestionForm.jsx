@@ -116,7 +116,7 @@ const QuestionForm = () => {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Question</label>
-                        <input
+                        <textarea
                             name="question"
                             value={formData.question}
                             onChange={handleChange}
@@ -131,7 +131,7 @@ const QuestionForm = () => {
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Article Topic</label>
-                            <input
+                            <textarea
                                 name="article.topic"
                                 value={formData.article.topic}
                                 onChange={handleChange}
@@ -153,7 +153,7 @@ const QuestionForm = () => {
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Example</label>
-                            <input
+                            <textarea
                                 name="article.example"
                                 value={formData.article.example}
                                 onChange={handleChange}
@@ -167,7 +167,7 @@ const QuestionForm = () => {
                                 <div className="space-y-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700">Approach</label>
-                                        <input
+                                        <textarea
                                             name={`solution.${index}.approach`}
                                             value={solution.approach}
                                             onChange={(e) => handleSolutionChange(index, 'approach', e.target.value)}

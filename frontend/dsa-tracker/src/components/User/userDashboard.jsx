@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserQuestions, updateUserQuestionStatusOrRevision, updateUserNotes, deleteUserNote,fetchSheetQuestions } from '../../api/userApi';
+import { updateUserQuestionStatusOrRevision, updateUserNotes, deleteUserNote,fetchSheetQuestions } from '../../api/userApi';
 import QuestionTable from './QuestionTable';
 import NoteModal from './NoteModal';
-import Navbar from '../Navbar';
 import {useParams} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {themeState} from "../../recoil/atoms/themeAtom.js";
-//import axiosInstance from '../../utils/axiosInstance'; // Import your axiosInstance
+import {toast} from "react-hot-toast";
+
 
 const UserDashboard = () => {
     const [questions, setQuestions] = useState([]);
@@ -30,7 +30,7 @@ const UserDashboard = () => {
         };
 
         loadQuestions();
-    }, []);
+    }, [sheet]);
 
     const theme = useRecoilValue(themeState);
 
@@ -57,6 +57,7 @@ const UserDashboard = () => {
                         : q
                 )
             );
+
         } catch (error) {
             console.error('Error updating question interaction:', error);
         }
@@ -89,8 +90,10 @@ const UserDashboard = () => {
                     )
                 );
                 setModalVisible(false);
+                toast.success('Note Saved');
             }
         } catch (error) {
+            toast.error('Error saving note');
             console.error('Error saving note:', error);
         }
     };
@@ -107,7 +110,9 @@ const UserDashboard = () => {
                 )
             );
             setModalVisible(false); // Close the modal
+            toast.success('Note Deleted Sucessfully');
         } catch (error) {
+            toast.error('Error deleting Note');
             console.error('Error deleting note:', error); // Log error to console
             alert('There was an error deleting the note. Please try again.'); // Show user-friendly message
         }
