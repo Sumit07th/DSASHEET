@@ -2,10 +2,10 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/package.json", // Point to the frontend package.json
+      "src": "frontend/package.json", 
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/dist" // Adjust output directory for Vite build
+        "distDir": "frontend/dist" 
       }
     }
   ],
