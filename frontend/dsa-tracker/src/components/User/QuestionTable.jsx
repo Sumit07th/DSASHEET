@@ -5,7 +5,7 @@ import platformIcons from './platformIcons';
 import videoIcons, { getVideoIcon } from './videoIcons';
 import { themeState } from '../../recoil/atoms/themeAtom';
 import { useRecoilValue } from "recoil";
-import { useParams } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 
 const QuestionTable = ({ questions, handleCheckboxChange, handleNoteButtonClick, expandedTopic, expandedDifficulty, toggleDifficulty }) => {
     const [loading, setLoading] = useState(true);
@@ -105,12 +105,10 @@ const QuestionTable = ({ questions, handleCheckboxChange, handleNoteButtonClick,
                                                         <td className="py-3 px-2 border-b border-gray-200 dark:bg-black dark:text-white">{question.question}</td>
                                                         <td className="py-3 px-2 border-b border-gray-200 dark:bg-black dark:text-white">
                                                             {question.article?.topic ? (
-                                                                <button
-                                                                    onClick={() => window.open(`/article/${question._id}`, '_blank')}
-                                                                    className="text-blue-500 hover:text-blue-700 underline flex items-center"
-                                                                >
-                                                                    <DocumentIcon className="w-4 h-4 mr-1" />
-                                                                </button>
+                                                               <Link to={`/article/${question._id}`} target="_blank" className="text-blue-500 hover:text-blue-700 underline flex items-center">
+                                                                   <DocumentIcon className="w-4 h-4 mr-1" />
+                                                               </Link>
+
                                                             ) : (
                                                                 'N/A'
                                                             )}
