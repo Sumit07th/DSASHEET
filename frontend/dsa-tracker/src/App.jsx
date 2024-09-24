@@ -7,7 +7,7 @@ import Signup from './pages/Auth/Signup.jsx';
 import Home from './pages/Home.jsx';
 import QuestionForm from "./components/Admin/QuestionForm.jsx";
 import QuestionList from "./components/Admin/QuestionList.jsx";
-import UpdateQuestion from './components/Admin/UpdateQuestion.jsx';
+import UpdateQuestion from './components/Admin/updateQuestion.jsx';
 import userDashboard from "./components/User/userDashboard.jsx";
 import ArticlePage from "./components/User/ArticlePage.jsx";
 import Dashboard from "./components/User/dashboard.jsx";
