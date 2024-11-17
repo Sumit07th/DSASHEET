@@ -5,8 +5,8 @@ import { ChevronDownIcon, ChevronUpIcon, ClipboardIcon } from '@heroicons/react/
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Navbar from "../Navbar.jsx";
-import {useRecoilValue} from "recoil";
-import {themeState} from "../../recoil/atoms/themeAtom.js";
+import { useRecoilValue } from "recoil";
+import { themeState } from "../../recoil/atoms/themeAtom.js";
 
 const ArticlePage = () => {
     const { questionId } = useParams();
@@ -28,7 +28,6 @@ const ArticlePage = () => {
 
     const theme = useRecoilValue(themeState);
 
-    // Apply dark mode class to the <html> element based on the theme state
     useEffect(() => {
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
@@ -55,13 +54,17 @@ const ArticlePage = () => {
 
     return (
         <div className="p-4 bg-gray-100 min-h-screen dark:bg-black dark:text-white">
-
             <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:bg-black dark:text-white">{article.topic}</h1>
             <div className="bg-white p-6 rounded-lg shadow-md dark:bg-black dark:text-white">
                 <h2 className="text-xl font-semibold mb-4 dark:bg-black dark:text-white">Problem Statement:</h2>
-                <p className="text-gray-700 mb-4 dark:bg-black dark:text-white">{article.problemStatement}</p>
+                {/* Preserve spaces and line breaks */}
+                <p className="text-gray-700 mb-4 leading-relaxed whitespace-pre-wrap dark:bg-black dark:text-white">
+                    {article.problemStatement}
+                </p>
                 <h3 className="text-lg font-semibold mt-4 dark:bg-black dark:text-white">Example:</h3>
-                <p className="text-gray-700 mb-4 dark:bg-black dark:text-white">{article.example}</p>
+                <p className="text-gray-700 mb-4 leading-relaxed whitespace-pre-wrap dark:bg-black dark:text-white">
+                    {article.example}
+                </p>
                 <h3 className="text-lg font-semibold mt-4 dark:bg-black dark:text-white">Solutions:</h3>
                 {article.solutions.map((solution, index) => (
                     <div key={index} className="border-b border-gray-200 mb-4 dark:bg-black dark:text-white">
@@ -79,7 +82,9 @@ const ArticlePage = () => {
                         {expandedSolution === index && (
                             <div className="p-4 bg-gray-50 rounded-b-lg relative dark:bg-black dark:text-white">
                                 <h4 className="font-semibold mb-2 dark:bg-black dark:text-white">Approach {index + 1}:</h4>
-                                <p className="text-gray-700 mb-2 dark:bg-black dark:text-white">{solution.approach}</p>
+                                <p className="text-gray-700 mb-4 leading-relaxed whitespace-pre-wrap dark:bg-black dark:text-white">
+                                    {solution.approach}
+                                </p>
                                 <h4 className="font-semibold mb-2 dark:bg-black dark:text-white">Code:</h4>
                                 <div className="relative">
                                     <ClipboardIcon
